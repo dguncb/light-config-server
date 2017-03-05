@@ -62,7 +62,8 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
                 FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
                 repositoryBuilder.setMustExist( true );
                 repositoryBuilder.readEnvironment();
-                repositoryBuilder.setGitDir(file);
+                repositoryBuilder.addCeilingDirectory(file);
+                repositoryBuilder.findGitDir();
                 try (Repository repository = repositoryBuilder.build()) {
                     if(logger.isDebugEnabled()) logger.debug("Starting fetch" + file.getAbsolutePath());
                     try (Git git = new Git(repository)) {
