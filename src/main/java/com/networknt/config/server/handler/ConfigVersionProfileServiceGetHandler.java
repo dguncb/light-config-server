@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -51,7 +52,7 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
                     .setDirectory(file)
                     .call()) {
                 // Note: the call() returns an opened repository already which needs to be closed to avoid file handle leaks!
-                System.out.println("Having repository: " + result.getRepository().getDirectory());
+                if(logger.isDebugEnabled()) logger.debug("Having repository: " + result.getRepository().getDirectory());
             } catch (GitAPIException e) {
                 logger.error("GitAPIException", e);
                 // TODO return error
@@ -67,8 +68,8 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
                 try (Repository repository = repositoryBuilder.build()) {
                     if(logger.isDebugEnabled()) logger.debug("Starting fetch" + file.getAbsolutePath());
                     try (Git git = new Git(repository)) {
-                        FetchResult result = git.fetch().setCheckFetchedObjects(true).call();
-                        if(logger.isDebugEnabled()) logger.debug("Messages: " + result.getMessages());
+                        PullResult result = git.pull().call();
+                        if(logger.isDebugEnabled()) logger.debug("Messages: " + result.getMergeResult().toString());
                     } catch (GitAPIException e) {
                         logger.error("GitAPIException", e);
                         // TODO
@@ -79,9 +80,6 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
                 // TODO return error
             }
         }
-
-
-
     }
 
     private void initializeDirectory(String absPath) {
