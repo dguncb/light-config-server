@@ -13,7 +13,7 @@ public class PathHandlerProvider implements HandlerProvider {
     @Override
     public HttpHandler getHandler() {
         return Handlers.routing()
-            .add(Methods.GET, "/v1/config/{service}/{profile}/{name}", new ConfigServiceProfileNameGetHandler())
+            .add(Methods.GET, "/v1/config/{version}/{profile}/{service}", new ConfigVersionProfileServiceGetHandler())
             .add(Methods.GET, "/v1/server/info", new ServerInfoGetHandler())
         ;
     }

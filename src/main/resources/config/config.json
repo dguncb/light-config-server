@@ -1,0 +1,5 @@
+{
+  "description": "light config server settings",
+  "default_repo": "git@github.com:networknt/light-config-dev.git",
+  "git_server":"github.com"
+}
