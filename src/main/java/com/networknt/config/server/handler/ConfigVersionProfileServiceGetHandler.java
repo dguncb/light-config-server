@@ -7,10 +7,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -147,7 +144,7 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
 
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
-
+        exchange.startBlocking();
         exchange.getResponseHeaders().add(new HttpString("Content-Type"), "application/octet-stream");
         String version = exchange.getQueryParameters().get("version").getFirst();
         String profile = exchange.getQueryParameters().get("profile").getFirst();
@@ -178,7 +175,20 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
             }
             Files.walkFileTree(Paths.get(targetFolder), new DeleteFileVisitor());
         }
-        exchange.getResponseSender().send("OK");
-
+        writeToOutputStream(zipFile, exchange.getOutputStream());
     }
+
+    private void writeToOutputStream(String filename, OutputStream oos) throws Exception {
+        File f = new File(filename);
+        byte[] buf = new byte[8192];
+        InputStream is = new FileInputStream(f);
+        int c = 0;
+        while ((c = is.read(buf, 0, buf.length)) > 0) {
+            oos.write(buf, 0, c);
+            oos.flush();
+        }
+        oos.close();
+        is.close();
+    }
+
 }
