@@ -7,10 +7,10 @@ ip: 0.0.0.0
 httpPort: 8080
 
 # Enable HTTP should be false on official environment.
-enableHttp: false
+enableHttp: true
 
 # Https port if enableHttps is true.
-httpsPort: 8843
+httpsPort: 8443
 
 # Enable HTTPS should be true on official environment.
 enableHttps: true

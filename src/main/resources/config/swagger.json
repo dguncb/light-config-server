@@ -25,6 +25,19 @@
         "application/json"
     ],
     "paths": {
+        "/server/info" : {
+            "get" : {
+                "parameters" : [ ],
+                "responses" : {
+                    "200" : {
+                        "description" : "successful operation"
+                    }
+                },
+                "security" : [ {
+                    "light_config_auth" : [ "server.info.r" ]
+                } ]
+            }
+        },
         "/config/{version}/{profile}/{service}": {
             "get": {
                 "description": "Return a config file in json format",
@@ -73,7 +86,8 @@
             "authorizationUrl": "http://localhost:8080/oauth2/code",
             "flow": "implicit",
             "scopes": {
-                "light.config.r": "read config access"
+                "light.config.r": "read config access",
+                "server.info.r": "read server info"
             }
         }
     }
