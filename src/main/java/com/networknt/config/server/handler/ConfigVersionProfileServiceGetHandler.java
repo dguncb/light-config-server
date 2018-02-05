@@ -9,23 +9,24 @@ import io.undertow.util.HttpString;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.transport.FetchResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * curl http://localhost:8080/v1/config/1.2.4/dev/com.networknt.petstore-1.0.0
+ * For test, start the server with mvn clean install exec:exec
+ * And go to the browser with the following url, you will be downloading a zip file with
+ * all the config files in it. You need to accept the risk to use self-signed certificate.
+ *
+ * https://localhost:8443/v1/config/1.2.4/dev/com.networknt.petstore-1.0.0
  */
 public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
     static final Logger logger = LoggerFactory.getLogger(ConfigVersionProfileServiceGetHandler.class);

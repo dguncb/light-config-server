@@ -5,13 +5,13 @@
 ip: 0.0.0.0
 
 # Http port if enableHttp is true.
-httpPort:  8080
+httpPort: 49587
 
 # Enable HTTP should be false on official environment.
 enableHttp: false
 
 # Https port if enableHttps is true.
-httpsPort:  8443
+httpsPort: 49588
 
 # Enable HTTPS should be true on official environment.
 enableHttps: true
@@ -29,7 +29,7 @@ enableTwoWayTls: false
 truststoreName: tls/server.truststore
 
 # Unique service identifier. Used in service registration and discovery etc.
-serviceId: com.networknt.config-server-1.0.0
+serviceId: com.networknt.petstore-1.0.1
 
 # Flag to enable service registration. Only be true if running as standalone Java jar.
 enableRegistry: false
