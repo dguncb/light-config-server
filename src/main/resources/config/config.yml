@@ -1,4 +1,4 @@
 ---
 description: light config server settings
-default_repo_uri: git@github.com:networknt/light-config-dev.git
+default_repo_uri: git@github.com:networknt/light-config-test.git
 git_server: github.com

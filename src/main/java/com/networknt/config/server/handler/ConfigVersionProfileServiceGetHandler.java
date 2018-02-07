@@ -33,10 +33,10 @@ public class ConfigVersionProfileServiceGetHandler implements HttpHandler {
     static final String CONFIG_NAME = "config";
     static final String WORKING_FOLDER = "/working";
     static final String REPOSITORIES_FOLDER = "/repositories";
-    static final String BASE_FLODER = System.getProperty("user.home");
+    static final String BASE_FOLDER = System.getProperty("user.home");
 
-    static final String ABSOLUTE_WORKING = BASE_FLODER + WORKING_FOLDER;
-    static final String ABSOLUTE_REPOSITORIES = BASE_FLODER + REPOSITORIES_FOLDER;
+    static final String ABSOLUTE_WORKING = BASE_FOLDER + WORKING_FOLDER;
+    static final String ABSOLUTE_REPOSITORIES = BASE_FOLDER + REPOSITORIES_FOLDER;
     static final Map<String, Object> config = Config.getInstance().getJsonMapConfig(CONFIG_NAME);
     static final String defaultRepoUri = (String)config.get("default_repo_uri");
 
