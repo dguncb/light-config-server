@@ -1,8 +1,6 @@
-A centralized config server that serves yaml or json config files from git hierarchical repositories
+# Light Hybrid 4J Service
 
-[Developer Chat](https://gitter.im/networknt/light-config-server) |
-[Documentation](https://doc.networknt.com/service/config/) |
-[Contribution Guide](CONTRIBUTING.md) |
-
-[![Build Status](https://travis-ci.org/networknt/light-config-server.svg?branch=master)](https://travis-ci.org/networknt/light-config-server)
+This project is a testing platform for developing light-hybrid-4j services. You can build and test your service
+here and then build a small jar file that contains only your handler classes. To deploy your service, just drop
+the jar into a directory and start light-hybrid-4j server.
 
