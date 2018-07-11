@@ -18,11 +18,10 @@ import java.util.List;
 /**
  * ConfigRepository implement class
  */
-public class ConfigRepositoryImpl implements ConfigRepository{
+public class ConfigRepositoryJdbcImpl implements ConfigRepository{
 
-    static final Logger logger = LoggerFactory.getLogger(ConfigRepositoryImpl.class);
+    static final Logger logger = LoggerFactory.getLogger(ConfigRepositoryJdbcImpl.class);
     static final DataSource ds = (DataSource) SingletonServiceFactory.getBean(DataSource.class);
-    static final String COMMON_KEY = "COMMON";
 
     private static final String INSERT_SERVICE_SECRET = "INSERT INTO config_secret (config_key, service_id, config_secret) VALUES (? , ? , ?)";
     private static final String INSERT_SERVICE_VALUE = "INSERT INTO config_value (config_key, service_id, config_value) VALUES (? , ? , ?)";

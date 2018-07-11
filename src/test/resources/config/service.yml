@@ -35,4 +35,4 @@ singletons:
       password: sa
 
 - net.lightapi.config.server.jdbc.ConfigRepository:
-  - net.lightapi.config.server.jdbc.ConfigRepositoryImpl
+  - net.lightapi.config.server.jdbc.ConfigRepositoryJdbcImpl

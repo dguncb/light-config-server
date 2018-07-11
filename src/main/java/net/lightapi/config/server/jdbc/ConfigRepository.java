@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface ConfigRepository {
 
+  static final String COMMON_KEY = "COMMON";
   /**
    * Deletes the config value pair by the given serviceId and the key
    *

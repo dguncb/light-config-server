@@ -22,10 +22,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Junit test class for ConfigRepositoryImpl.
+ * Junit test class for ConfigRepositoryJdbcImpl.
  * use H2 test database for data source
  */
-public class ConfigRepositoryImplTest {
+public class ConfigRepositoryJdbcImplTest {
 
     public static DataSource ds;
 
@@ -34,7 +34,7 @@ public class ConfigRepositoryImplTest {
        try (Connection connection = ds.getConnection()) {
             // Runscript doesn't work need to execute batch here.
             String schemaResourceName = "/config_server_h2.sql";
-            InputStream in = ConfigRepositoryImplTest.class.getResourceAsStream(schemaResourceName);
+            InputStream in = ConfigRepositoryJdbcImplTest.class.getResourceAsStream(schemaResourceName);
 
             if (in == null) {
                 throw new RuntimeException("Failed to load resource: " + schemaResourceName);
