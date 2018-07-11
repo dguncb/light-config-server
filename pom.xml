@@ -20,9 +20,9 @@
         <version.undertow>1.4.23.Final</version.undertow>
         <version.json-schema-validator>0.1.18</version.json-schema-validator>
         <version.fastscanner>2.18.1</version.fastscanner>
-        
-        
-        
+
+        <version.h2>1.4.196</version.h2>
+        <version.hikaricp>3.1.0</version.hikaricp>
         
         
         <versions.maven-version>2.4</versions.maven-version>
@@ -99,10 +99,8 @@
             <artifactId>fast-classpath-scanner</artifactId>
             <version>${version.fastscanner}</version>
         </dependency>
-        
-        
-        
-        
+
+
         <!-- Test Dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -110,7 +108,18 @@
             <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
-        
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${version.hikaricp}</version>
+        </dependency>
     </dependencies>
 
 
