@@ -2,6 +2,7 @@ package net.lightapi.config.server.jdbc;
 
 
 
+import com.networknt.cluster.Cluster;
 import com.networknt.service.SingletonServiceFactory;
 import net.lightapi.config.server.common.ConfigValue;
 import org.h2.tools.RunScript;
@@ -55,14 +56,14 @@ public class ConfigRepositoryJdbcImplTest {
     @BeforeClass
     public static void setUp() {
         serviceId = "com.networknt.oauth2-key-1.0.0";
-        ConfigValue  configValue1 = new ConfigValue("sever|keystoreName", "tls/server.keystore");
-        ConfigValue  configValue2 = new ConfigValue("sever|truststoreName", "tls/server.truststore");
+        ConfigValue  configValue1 = new ConfigValue("sever/keystoreName", "tls/server.keystore");
+        ConfigValue  configValue2 = new ConfigValue("sever/truststoreName", "tls/server.truststore");
 
         configValues = new ArrayList<> ();
         configValues.add(configValue1);
         configValues.add(configValue2);
 
-        configValue =  new ConfigValue("sever|dynamicPort", "false");
+        configValue =  new ConfigValue("sever/dynamicPort", "false");
     }
 
     @Test

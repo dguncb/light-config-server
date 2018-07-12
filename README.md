@@ -48,7 +48,7 @@ From config value key, system identify the template and and config name in the c
 
 For example:
 
-config key:  service|javax.sql.DataSource|com.zaxxer.hikari.HikariDataSource|DriverClassName
+config key:  service/javax.sql.DataSource/com.zaxxer.hikari.HikariDataSource/DriverClassName
 
 It will identify following config in the service.yml file (template):
 

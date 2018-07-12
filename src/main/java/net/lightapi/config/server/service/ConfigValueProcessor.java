@@ -2,7 +2,8 @@ package net.lightapi.config.server.service;
 
 
 import net.lightapi.config.server.common.ConfigValue;
-import net.lightapi.config.server.common.TemplateConfigValue;
+import net.lightapi.config.server.common.template.TemplateConfigValue;
+
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ConfigValueProcessor {
      * @param configValues list of ConfigValue object
      * @return result config value map, key is the template name
      */
-    TemplateConfigValue processConfigValues( List<ConfigValue> configValues );
+    TemplateConfigValue processConfigValues(List<ConfigValue> configValues );
 
     void processTemplate( String resourceFolder, TemplateConfigValue templateConfigValue );
 
