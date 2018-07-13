@@ -21,7 +21,8 @@ ENGINE=INNODB;
 
 CREATE TABLE config_secret (
   config_key VARCHAR(256) NOT NULL,
-  config_secret VARCHAR(256) NOT NULL,
+  config_secret_hash VARCHAR(256) NOT NULL,
+  config_secret_salt VARCHAR(256) NOT NULL,
   service_id VARCHAR(256) NOT NULL
   PRIMARY KEY (config_key, service_id)
 )

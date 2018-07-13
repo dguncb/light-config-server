@@ -11,7 +11,7 @@ public class ConfigSecret implements ValueObject<ConfigSecret> {
   private String key;
   private String secret;
 
-
+  private SecretValue secretValue;
 
   /**
    * Create a new ConfigValue.
@@ -23,6 +23,12 @@ public class ConfigSecret implements ValueObject<ConfigSecret> {
     this.key = key;
     this.secret = secret;
   }
+
+  public ConfigSecret(String key,  SecretValue secretValue) {
+    this.key = key;
+    this.secretValue = secretValue;
+  }
+
 
   public String getKey() {
     return key;
@@ -38,5 +44,13 @@ public class ConfigSecret implements ValueObject<ConfigSecret> {
 
   public void setSecret(String secret) {
     this.secret = secret;
+  }
+
+  public SecretValue getSecretValue() {
+    return secretValue;
+  }
+
+  public void setSecretValue(SecretValue secretValue) {
+    this.secretValue = secretValue;
   }
 }
