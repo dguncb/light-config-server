@@ -58,3 +58,6 @@ javax.sql.DataSource
 
 
 ### Workflow diagram
+
+
+![workflow](docs/light-config-server.png)
