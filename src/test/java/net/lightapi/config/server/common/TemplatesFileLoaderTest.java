@@ -18,11 +18,12 @@ public class TemplatesFileLoaderTest {
 
     }
 
-
- /*   @Test
+/*
+    @Test
     public void testGetTemplates()  throws IOException {
         List<File> files =  fileLoader.getTemplates("/Users/chenga/workspace/light-config-server/src/test/resources/config");
         System.out.println("result:" + files.get(0).getName());
 
-    }*/
+    }
+    */
 }
