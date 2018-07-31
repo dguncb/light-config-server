@@ -22,6 +22,8 @@ public interface ConfigValueProcessor {
      */
     TemplateConfigValue processConfigValues(List<ConfigValue> configValues, String serviceId );
 
+    TemplateConfigValue processConfigValues(String serviceId );
+
     void processTemplate( String resourceFolder, TemplateConfigValue templateConfigValue ) throws IOException;
 
 

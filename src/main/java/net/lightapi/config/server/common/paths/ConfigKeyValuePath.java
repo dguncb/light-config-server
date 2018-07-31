@@ -45,4 +45,9 @@ public class ConfigKeyValuePath {
   public String getTemplate() {
     return splits[0];
   }
+
+
+  public String getValue() {
+    return this.value;
+  }
 }

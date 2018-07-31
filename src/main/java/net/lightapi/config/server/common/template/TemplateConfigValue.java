@@ -53,6 +53,5 @@ public class TemplateConfigValue implements  TemplateMapping {
     public List<ConfigKeyValuePath> transform(String template) {
         List<ConfigValue> configValues = mappings.getOrDefault(template, new ArrayList<>());
         return configValues.stream().map(c->ConfigKeyValuePath.parse(c)).collect(Collectors.toList());
-
     }
 }
