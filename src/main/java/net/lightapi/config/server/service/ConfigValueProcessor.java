@@ -1,6 +1,7 @@
 package net.lightapi.config.server.service;
 
 
+import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.common.template.TemplateConfigValue;
 
@@ -24,7 +25,11 @@ public interface ConfigValueProcessor {
 
     TemplateConfigValue processConfigValues(String serviceId );
 
-    void processTemplate( String resourceFolder, TemplateConfigValue templateConfigValue ) throws IOException;
+    void processTemplate( TemplateConfigValue templateConfigValue, ConfigService configService  ) throws Exception;
 
+
+    void processTemplate( String sourceFolder, TemplateConfigValue templateConfigValue, ConfigService configService  ) throws Exception;
+
+    void getTemplateFromRepo( ConfigService configService  );
 
 }

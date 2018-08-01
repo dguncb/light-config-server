@@ -14,6 +14,11 @@ public class ConfigService implements ValueObject<ConfigService> {
   private String templateRepository;
   private String serviceOwner;
 
+  private String version;
+
+  private String profile;
+
+
 
 
 
@@ -58,5 +63,21 @@ public class ConfigService implements ValueObject<ConfigService> {
 
   public void setServiceOwner(String serviceOwner) {
     this.serviceOwner = serviceOwner;
+  }
+
+  public String getVersion() {
+    return version;
+  }
+
+  public void setVersion(String version) {
+    this.version = version;
+  }
+
+  public String getProfile() {
+    return profile;
+  }
+
+  public void setProfile(String profile) {
+    this.profile = profile;
   }
 }

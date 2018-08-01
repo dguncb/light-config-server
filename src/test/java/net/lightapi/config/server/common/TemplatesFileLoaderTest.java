@@ -21,7 +21,7 @@ public class TemplatesFileLoaderTest {
 /*
     @Test
     public void testGetTemplates()  throws IOException {
-        List<File> files =  fileLoader.getTemplates("/Users/chenga/workspace/light-config-server/src/test/resources/config");
+        List<File> files =  fileLoader.getTemplates(System.getProperty("user.home")+ "/workspace/light-config-server/src/test/resources/template);
         System.out.println("result:" + files.get(0).getName());
 
     }

@@ -9,6 +9,7 @@ import net.lightapi.config.server.jdbc.ConfigRepository;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,8 @@ public class ConfigValueProcessorTest {
 
     @BeforeClass
     public static void setUp() {
-        ConfigValue  configValue1 = new ConfigValue("sever/keystoreName", "tls/server.keystore");
-        ConfigValue  configValue2 = new ConfigValue("sever/truststoreName", "tls/server.truststore");
+        ConfigValue  configValue1 = new ConfigValue("server/keystoreName", "tls/server.keystore");
+        ConfigValue  configValue2 = new ConfigValue("server/truststoreName", "tls/server.truststore");
         ConfigValue  configValue3 = new ConfigValue("user/email", "aaa@gmail.com");
 
         configValues = new ArrayList<>();
@@ -36,8 +37,8 @@ public class ConfigValueProcessorTest {
 
         TemplateConfigValue templateConfigValue = TemplateConfigValue.builder().with(configValues)
                 .build();
-        values = templateConfigValue.transform("sever");
-        content = "keystoreName: {sever/keystoreName} \n truststoreName:{sever/truststoreName}";
+        values = templateConfigValue.transform("server");
+        content = "keystoreName: {server/keystoreName} \n truststoreName:{server/truststoreName}";
 
     }
 
@@ -48,6 +49,16 @@ public class ConfigValueProcessorTest {
         String result = configValueProcessor.replacePlaceHolder(content, values);
         System.out.println("result:" + result);
 
+    }
+
+
+    @Test
+    public void testReplacePlaceHolder2()  throws IOException {
+/*
+        List<File> files =  fileLoader.getTemplates(System.getProperty("user.home")+ "/workspace/light-config-server/src/test/resources/template");
+        String result = configValueProcessor.replacePlaceHolder(files.get(0), values);
+        System.out.println("result:" + result);
+*/
     }
 
 }
