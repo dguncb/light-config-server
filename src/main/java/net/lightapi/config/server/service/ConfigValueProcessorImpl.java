@@ -27,6 +27,12 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullResult;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
 public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
 
@@ -103,11 +109,11 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
     @Override
     public void getTemplateFromRepo (ConfigService configService ) {
         File file = new File(ABSOLUTE_REPOSITORIES + getRepoName(configService.getTemplateRepository()));
-/*
+
         if(!file.exists()) {
             // clone
             try (Git result = Git.cloneRepository()
-                    .setURI(defaultRepoUri)
+                    .setURI(configService.getTemplateRepository())
                     .setDirectory(file)
                     .call()) {
                 // Note: the call() returns an opened repository already which needs to be closed to avoid file handle leaks!
@@ -138,7 +144,7 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
                 logger.error("IOException", e);
                 // TODO return error
             }
-        }*/
+        }
     }
 
     protected String replacePlaceHolder (File template, List<ConfigKeyValuePath> values) throws IOException {
@@ -231,7 +237,10 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
     }
 
     private String getRepoName(String repoUri) {
-        return repoUri.substring(repoUri.indexOf("/"), repoUri.indexOf(".git"));
+        return repoUri.substring(repoUri.lastIndexOf("/"), repoUri.indexOf(".git"));
     }
 
+    protected String getRepoPath(ConfigService configService) {
+        return ABSOLUTE_REPOSITORIES + getRepoName(configService.getTemplateRepository());
+    }
 }

@@ -1,6 +1,7 @@
 package net.lightapi.config.server.service;
 
 import com.networknt.service.SingletonServiceFactory;
+import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.common.paths.ConfigKeyValuePath;
 import net.lightapi.config.server.common.template.TemplateConfigValue;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 public class ConfigValueProcessorTest {
 
     private ConfigRepository configRepository = (ConfigRepository) SingletonServiceFactory.getBean(ConfigRepository.class);
@@ -23,6 +26,7 @@ public class ConfigValueProcessorTest {
     private static List<ConfigValue> configValues;
     private static String content;
     private static  List<ConfigKeyValuePath> values;
+    private static ConfigService configService;
 
     @BeforeClass
     public static void setUp() {
@@ -40,6 +44,8 @@ public class ConfigValueProcessorTest {
         values = templateConfigValue.transform("server");
         content = "keystoreName: {server/keystoreName} \n truststoreName:{server/truststoreName}";
 
+        configService = new ConfigService();
+        configService.setTemplateRepository("https://github.com/networknt/light-config-server.git");
     }
 
 
@@ -59,6 +65,16 @@ public class ConfigValueProcessorTest {
         String result = configValueProcessor.replacePlaceHolder(files.get(0), values);
         System.out.println("result:" + result);
 */
+    }
+
+    @Test
+    public void testGetTemplateFromRepo()  {
+
+
+        configValueProcessor.getTemplateFromRepo(configService);
+        File file = new File(configValueProcessor.getRepoPath(configService));
+        assertTrue(file.exists());
+        assertTrue(file.listFiles().length>0);
     }
 
 }

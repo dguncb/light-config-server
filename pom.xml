@@ -23,7 +23,7 @@
 
         <version.h2>1.4.196</version.h2>
         <version.hikaricp>3.1.0</version.hikaricp>
-        
+        <version.jgit>4.6.0.201612231935-r</version.jgit>
         
         <versions.maven-version>2.4</versions.maven-version>
     </properties>
@@ -110,6 +110,11 @@
             <version>${version.fastscanner}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>${version.jgit}</version>
+        </dependency>
 
         <!-- Test Dependencies -->
         <dependency>
