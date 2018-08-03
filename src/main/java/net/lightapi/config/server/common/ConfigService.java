@@ -8,6 +8,7 @@ package net.lightapi.config.server.common;
 
 public class ConfigService implements ValueObject<ConfigService> {
 
+  private String configServiceId;
   private String serviceId;
   private String encryptionAlgorithm;
   private String encryptionSalt;
@@ -17,12 +18,17 @@ public class ConfigService implements ValueObject<ConfigService> {
   private String version;
 
   private String profile;
-
-
-
-
+  private boolean refreshed;
 
   public ConfigService() {
+  }
+
+  public String getConfigServiceId() {
+    return configServiceId;
+  }
+
+  public void setConfigServiceId(String configServiceId) {
+    this.configServiceId = configServiceId;
   }
 
   public String getServiceId() {
@@ -79,5 +85,13 @@ public class ConfigService implements ValueObject<ConfigService> {
 
   public void setProfile(String profile) {
     this.profile = profile;
+  }
+
+  public boolean isRefreshed() {
+    return refreshed;
+  }
+
+  public void setRefreshed(boolean refreshed) {
+    this.refreshed = refreshed;
   }
 }

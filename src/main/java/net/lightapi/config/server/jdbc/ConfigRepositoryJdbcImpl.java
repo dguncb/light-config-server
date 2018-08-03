@@ -3,8 +3,11 @@ package net.lightapi.config.server.jdbc;
 
 import com.networknt.service.SingletonServiceFactory;
 import net.lightapi.config.server.common.ConfigSecret;
+import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.common.SecretValue;
+import net.lightapi.config.server.util.IdGenerator;
+import net.lightapi.config.server.util.IdGeneratorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,21 +27,24 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
     static final Logger logger = LoggerFactory.getLogger(ConfigRepositoryJdbcImpl.class);
     static final DataSource ds = (DataSource) SingletonServiceFactory.getBean(DataSource.class);
 
-    private static final String INSERT_SERVICE_SECRET = "INSERT INTO config_secret (config_key, service_id, config_secret_hash, config_secret_salt) VALUES (? , ? , ?, ?)";
-    private static final String INSERT_SERVICE_VALUE = "INSERT INTO config_value (config_key, service_id, config_value) VALUES (? , ? , ?)";
+    private static final String INSERT_SERVICE = "INSERT INTO config_service (config_service_id, service_profile, service_id, service_version, template_repository, service_owner) VALUES (? , ? , ?, ?, ?,  ?)";
+    private static final String GET_SERVICE_CONFIG_ID = "SELECT config_service_id,service_id,service_profile, service_version, template_repository, service_owner, refreshed   FROM config_service  WHERE service_id = ? and service_profile = ? ";
 
-    private static final String DELETE_SERVICE_SECRET = "DELETE FROM config_secret WHERE config_key = ? AND service_id = ?";
-    private static final String DELETE_SERVICE_VALUE = "DELETE FROM config_value WHERE config_key = ? AND service_id = ?";
-    private static final String DELETE_SERVICE_VALUES = "DELETE FROM config_value WHERE service_id = ?";
+    private static final String INSERT_SERVICE_SECRET = "INSERT INTO config_secret (config_key, config_service_id, config_secret_hash, config_secret_salt) VALUES (? , ? , ?, ?)";
+    private static final String INSERT_SERVICE_VALUE = "INSERT INTO config_value (config_key, config_service_id, config_value) VALUES (? , ? , ?)";
 
-    private static final String UPDATE_SERVICE_VALUE = "UPDATE config_value SET  config_value=? WHERE config_key = ? and service_id = ? ";
-    private static final String UPDATE_SERVICE_SECRET = "UPDATE config_secret SET  config_secret_hash=?, config_secret_salt = ?  WHERE config_key = ? and service_id = ? ";
+    private static final String DELETE_SERVICE_SECRET = "DELETE FROM config_secret WHERE config_key = ? AND config_service_id = ?";
+    private static final String DELETE_SERVICE_VALUE = "DELETE FROM config_value WHERE config_key = ? AND config_service_id = ?";
+    private static final String DELETE_SERVICE_VALUES = "DELETE FROM config_value WHERE config_service_id = ?";
 
-    private static final String QUERY_SERVICE_SECRET = "SELECT config_key, config_secret_hash, config_secret_salt FROM config_secret  WHERE config_key = ? and service_id = ? ";
-    private static final String QUERY_SERVICE_VALUE = "SELECT config_key, config_value FROM config_value  WHERE config_key = ? and service_id = ? ";
-    private static final String QUERY_SERVICE_SECRETS = "SELECT config_key, config_secret_hash, config_secret_salt FROM config_secret  WHERE  service_id = ? ";
-    private static final String QUERY_SERVICE_VALUES = "SELECT config_key, config_value FROM config_value  WHERE  service_id = ? ";
+    private static final String UPDATE_SERVICE_VALUE = "UPDATE config_value SET  config_value=? WHERE config_key = ? and config_service_id = ? ";
+    private static final String UPDATE_SERVICE_SECRET = "UPDATE config_secret SET  config_secret_hash=?, config_secret_salt = ?  WHERE config_key = ? and config_service_id = ? ";
 
+    private static final String QUERY_SERVICE_SECRET = "SELECT config_key, config_secret_hash, config_secret_salt FROM config_secret  WHERE config_key = ? and config_service_id = ? ";
+    private static final String QUERY_SERVICE_VALUE = "SELECT config_key, config_value FROM config_value  WHERE config_key = ? and config_service_id = ? ";
+    private static final String QUERY_SERVICE_SECRETS = "SELECT config_key, config_secret_hash, config_secret_salt FROM config_secret  WHERE  config_service_id = ? ";
+    private static final String QUERY_SERVICE_VALUES = "SELECT config_key, config_value FROM config_value  WHERE  config_service_id = ? ";
+    @Override
     public int  deleteServiceSecret(String key, String serviceId ) {
         if(logger.isDebugEnabled()) logger.debug("Delete the service secret key=:" + key + "; serviceId = " + serviceId);
 
@@ -54,6 +60,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return result;
     }
 
+    @Override
     public int  deleteServiceValue(String key, String serviceId ) {
         if(logger.isDebugEnabled()) logger.debug("Delete the service value key=:" + key + "; serviceId = " + serviceId);
 
@@ -69,6 +76,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return result;
     }
 
+    @Override
     public int  deleteServiceValues(String serviceId ) {
         if(logger.isDebugEnabled()) logger.debug("Delete the service values serviceId = " + serviceId);
 
@@ -83,6 +91,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return result;
     }
 
+    @Override
     public ConfigValue createServiceValue(ConfigValue configValue, String serviceId){
         if(logger.isDebugEnabled()) logger.debug("Store config value :"  + configValue.getKey() + "; " + configValue.getValue());
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE_VALUE)) {
@@ -97,6 +106,29 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return configValue;
     }
 
+    @Override
+    public String createConfigService(ConfigService configService){
+        if(logger.isDebugEnabled()) logger.debug("Store config service :"  + configService.getServiceId() + "; " + configService.getProfile());
+        if (configService.getConfigServiceId()==null) {
+            IdGenerator idGenerator = new IdGeneratorImpl();
+            configService.setConfigServiceId(idGenerator.genId().asString());
+        }
+        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE)) {
+            stmt.setString(1, configService.getConfigServiceId());
+            stmt.setString(2, configService.getProfile());
+            stmt.setString(3, configService.getServiceId());
+            stmt.setString(4, configService.getVersion());
+            stmt.setString(5, configService.getTemplateRepository());
+            stmt.setString(6, configService.getServiceOwner());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Exception:", e);
+            throw new RuntimeException(e);
+        }
+        return configService.getConfigServiceId();
+    }
+
+    @Override
     public ConfigSecret createServiceSecret(ConfigSecret configSecret, String serviceId){
         if(logger.isDebugEnabled()) logger.debug("Store config secret :"  + configSecret.getKey() + "; " + configSecret.getSecret());
         //TODO convert secret value first
@@ -114,10 +146,12 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
 
     }
 
+    @Override
     public ConfigValue createCommonService(ConfigValue configValue) {
         return createServiceValue(configValue, COMMON_KEY );
     }
 
+    @Override
     public int createCommonServices(List<ConfigValue> configValues){
 
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE_VALUE)) {
@@ -135,6 +169,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return configValues.size();
     }
 
+    @Override
     public int createServiceValues(List<ConfigValue> configValues, String serviceId){
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE_VALUE)) {
             for (ConfigValue configValue : configValues) {
@@ -151,6 +186,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return configValues.size();
     }
 
+    @Override
     public ConfigValue updateServiceValue(ConfigValue configValue, String serviceId){
         if(logger.isDebugEnabled()) logger.debug("update config value :"  + configValue.getKey() + "; " + configValue.getValue());
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(UPDATE_SERVICE_VALUE)) {
@@ -166,7 +202,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
 
     }
 
-
+    @Override
     public ConfigSecret updateServiceSecret(ConfigSecret configSecret, String serviceId){
         if(logger.isDebugEnabled()) logger.debug("update config secret :"  + configSecret.getKey() + "; " + configSecret.getSecret());
 
@@ -183,7 +219,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return configSecret;
     }
 
-
+    @Override
     public ConfigValue updateCommonService(ConfigValue configValue){
         if(logger.isDebugEnabled()) logger.debug("update config value :"  + configValue.getKey() + "; " + configValue.getValue());
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(UPDATE_SERVICE_VALUE)) {
@@ -199,6 +235,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
 
     }
 
+    @Override
      public ConfigValue queryServiceValue(String key, String serviceId){
          ConfigValue configValue = null;
          try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(QUERY_SERVICE_VALUE)) {
@@ -216,6 +253,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return configValue;
      }
 
+    @Override
      public ConfigSecret queryServiceSecret(String key, String serviceId){
          ConfigSecret configSecret = null;
          try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(QUERY_SERVICE_SECRET)) {
@@ -233,7 +271,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
          return configSecret;
      }
 
-
+    @Override
      public ConfigValue queryCommonValue(String key){
          ConfigValue configValue = null;
          try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(QUERY_SERVICE_VALUE)) {
@@ -251,6 +289,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
          return configValue;
      }
 
+    @Override
      public List<ConfigValue> queryServiceValues(String serviceId){
          List<ConfigValue> configValues = new ArrayList<>();
          try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(QUERY_SERVICE_VALUES)) {
@@ -268,7 +307,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
          return configValues;
      }
 
-
+    @Override
     public List<ConfigSecret> queryServiceSecrets(String serviceId){
         List<ConfigSecret> configSecrets = new ArrayList<>();
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(QUERY_SERVICE_SECRETS)) {
@@ -287,7 +326,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
     }
 
 
-
+    @Override
     public List<ConfigValue> queryCommonValues(){
         List<ConfigValue> configValues = new ArrayList<>();
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(QUERY_SERVICE_VALUES)) {
@@ -303,6 +342,31 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
             throw new RuntimeException(e);
         }
         return configValues;
+    }
+
+    @Override
+    public ConfigService queryConfigServiceId(String serviceId, String profile){
+        ConfigService configService = null;
+        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(GET_SERVICE_CONFIG_ID)) {
+            stmt.setString(1, serviceId);
+            stmt.setString(2, profile);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    configService = new  ConfigService();
+                    configService.setConfigServiceId(rs.getString("config_service_id"));
+                    configService.setServiceId(serviceId);
+                    configService.setProfile(profile);
+                    configService.setServiceOwner(rs.getString("config_service_id"));
+                    configService.setVersion(rs.getString("service_version"));
+                    configService.setTemplateRepository(rs.getString("template_repository"));
+                    configService.setRefreshed(rs.getString("template_repository")=="Y"?true:false );
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Exception:", e);
+            throw new RuntimeException(e);
+        }
+        return configService;
     }
 
 }

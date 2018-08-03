@@ -61,6 +61,11 @@
         </dependency>
         <dependency>
             <groupId>com.networknt</groupId>
+            <artifactId>eventuate-common</artifactId>
+            <version>${version.light-4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.networknt</groupId>
             <artifactId>rpc-router</artifactId>
             <version>${version.light-hybrid-4j}</version>
         </dependency>

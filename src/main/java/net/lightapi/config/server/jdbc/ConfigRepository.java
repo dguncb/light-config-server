@@ -4,6 +4,7 @@ package net.lightapi.config.server.jdbc;
 
 
 import net.lightapi.config.server.common.ConfigSecret;
+import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
 
 import java.util.List;
@@ -47,6 +48,13 @@ public interface ConfigRepository {
    * @return the stored {@link ConfigValue}
    */
   ConfigValue createServiceValue(ConfigValue configValue, String serviceId);
+
+  /**
+   * Stores the given Config key value pair.
+   * @param configService a {@link ConfigService}
+   * @return the config_service_id
+   */
+  String createConfigService(ConfigService configService);
 
   /**
    * Stores the given Config key value pair.
@@ -154,4 +162,6 @@ public interface ConfigRepository {
    * @return the result list of  {@link ConfigValue}
    */
   List<ConfigValue> queryCommonValues();
+
+  ConfigService queryConfigServiceId(String serviceId, String profile);
 }
