@@ -94,7 +94,7 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
         if(logger.isDebugEnabled()) logger.debug("zipFile " + zipFile);
         Path path = Paths.get(zipFile);
-        if (!Files.exists(path)) {
+        if (!Files.exists(path) || configService.isRefreshed()) {
             try (FileOutputStream fos = new FileOutputStream(zipFile)) {
                 try(ZipOutputStream zos = new ZipOutputStream(fos)) {
                     addDirToZipArchive(zos, new File(targetFolder), null);
