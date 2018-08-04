@@ -10,7 +10,7 @@ public class ConfigService implements ValueObject<ConfigService> {
 
   private String configServiceId;
   private String serviceId;
-  private String encryptionAlgorithm;
+  private EncryptionAlgorithm encryptionAlgorithm = EncryptionAlgorithm.AES;
   private String encryptionSalt;
   private String templateRepository;
   private String serviceOwner;
@@ -39,11 +39,11 @@ public class ConfigService implements ValueObject<ConfigService> {
     this.serviceId = serviceId;
   }
 
-  public String getEncryptionAlgorithm() {
+  public EncryptionAlgorithm getEncryptionAlgorithm() {
     return encryptionAlgorithm;
   }
 
-  public void setEncryptionAlgorithm(String encryptionAlgorithm) {
+  public void setEncryptionAlgorithm(EncryptionAlgorithm encryptionAlgorithm) {
     this.encryptionAlgorithm = encryptionAlgorithm;
   }
 

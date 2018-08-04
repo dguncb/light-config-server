@@ -28,7 +28,29 @@
           "key",
           "value"
         ]
-      },"scope": "light.config.w"},"lightapi.net/config/query-service-value/0.1.0":{"schema": {
+      },"scope": "light.config.w"},"lightapi.net/config/create-service-values/0.1.0":{"schema": {
+        "title": "Create a list of service key value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "connmanValues": {
+            "type": "array",
+            "items": {
+              "key": {
+                 "type": "string"
+                },
+              "value": {
+                "type": "string"
+              }            
+            }                    
+        },
+        "required": [
+          "configServiceId"
+        ]
+      }
+     },"scope": "light.config.w"},"lightapi.net/config/query-service-value/0.1.0":{"schema": {
         "title": "Query a service specific key value entry",
         "type": "object",
         "properties": {
@@ -73,7 +95,29 @@
         "required": [
           "serviceId"
         ]
-      },"scope": "light.config.r"},"lightapi.net/config/query-service-secret/0.1.0":{"schema": {
+      },"scope": "light.config.r"},"lightapi.net/config/create-common-values/0.1.0":{"schema": {
+        "title": "Create a list of common key value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "connmanValues": {
+            "type": "array",
+            "items": {
+              "key": {
+                 "type": "string"
+                },
+              "value": {
+                "type": "string"
+              }            
+            }                    
+        },
+        "required": [
+          "configServiceId"
+        ]
+      }
+     },"scope": "light.config.w"},"lightapi.net/config/query-service-secret/0.1.0":{"schema": {
         "title": "Query a service specific key secret entry",
         "type": "object",
         "properties": {
@@ -179,6 +223,12 @@
           "templateRepository": {
             "type": "string"
           },
+          "profile": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },          
           "serviceOwner": {
             "type": "string"
           }
@@ -187,6 +237,8 @@
           "serviceId",
           "encryptionAlgorithm",
           "templateRepository",
+          "profile",
+          "version",
           "serviceOwner"
         ]
       },"scope": "light.config.w"},"lightapi.net/config/create-common-secret/0.1.0":{"schema": {
@@ -249,7 +301,7 @@
           "buildProfile",
           "serviceId"
         ]
-      },"scope":{"exception":{"detailMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\n        \"title\": \"Retrieve Config Zip File\",\n        \"type\": \"object\",\n        \"properties\": {\n          \"frameworkVersion\": {\n            \"type\": \"string\"\n          },\n          \"buildProfile\": {\n            \"type\": \"string\"\n          },\n          \"serviceId\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"frameworkVersion\",\n          \"buildProfile\",\n          \"serviceId\"\n        ]\n      }, handler=RetrieveConfig, version=0.1.0}","suppressedExceptions":[],"cause":null,"message":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\n        \"title\": \"Retrieve Config Zip File\",\n        \"type\": \"object\",\n        \"properties\": {\n          \"frameworkVersion\": {\n            \"type\": \"string\"\n          },\n          \"buildProfile\": {\n            \"type\": \"string\"\n          },\n          \"serviceId\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"frameworkVersion\",\n          \"buildProfile\",\n          \"serviceId\"\n        ]\n      }, handler=RetrieveConfig, version=0.1.0}","localizedMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\n        \"title\": \"Retrieve Config Zip File\",\n        \"type\": \"object\",\n        \"properties\": {\n          \"frameworkVersion\": {\n            \"type\": \"string\"\n          },\n          \"buildProfile\": {\n            \"type\": \"string\"\n          },\n          \"serviceId\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"frameworkVersion\",\n          \"buildProfile\",\n          \"serviceId\"\n        ]\n      }, handler=RetrieveConfig, version=0.1.0}","stackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"className":"com.jsoniter.any.NotFoundAny","methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"className":"com.jsoniter.any.ObjectLazyAny","methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"className":"com.networknt.codegen.hybrid.HybridServiceGenerator","methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"className":"com.networknt.codegen.Cli","methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"className":"com.networknt.codegen.Cli","methodName":"main"}],"ourStackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"className":"com.jsoniter.any.NotFoundAny","methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"className":"com.jsoniter.any.ObjectLazyAny","methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"className":"com.networknt.codegen.hybrid.HybridServiceGenerator","methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"className":"com.networknt.codegen.Cli","methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"className":"com.networknt.codegen.Cli","methodName":"main"}],"stackTraceDepth":5,"suppressed":[]}}},"lightapi.net/config/delete-common-value/0.1.0":{"schema": {
+      },"scope":{"exception":{"detailMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"frameworkVersion\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"buildProfile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"frameworkVersion\",\r\n          \"buildProfile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","suppressedExceptions":[],"cause":null,"localizedMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"frameworkVersion\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"buildProfile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"frameworkVersion\",\r\n          \"buildProfile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","message":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"frameworkVersion\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"buildProfile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"frameworkVersion\",\r\n          \"buildProfile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","ourStackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","className":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","className":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","className":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"methodName":"main"}],"stackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","className":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","className":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","className":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"methodName":"main"}],"stackTraceDepth":5,"suppressed":[]}}},"lightapi.net/config/delete-common-value/0.1.0":{"schema": {
         "title": "Delete a common key value entry",
         "type": "object",
         "properties": {
