@@ -22,11 +22,11 @@ import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class CreateServiceValues Test {
+public class CreateCommonValuesTest {
     @ClassRule
     public static TestServer server = TestServer.getInstance();
 
-    static final Logger logger = LoggerFactory.getLogger(CreateServiceValues .class); 
+    static final Logger logger = LoggerFactory.getLogger(CreateCommonValues .class); 
     static final boolean enableHttp2 = server.getServerConfig().isEnableHttp2();
     static final boolean enableHttps = server.getServerConfig().isEnableHttps();
     static final int httpPort = server.getServerConfig().getHttpPort();
@@ -34,7 +34,7 @@ public class CreateServiceValues Test {
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
 
     @Test
-    public void testCreateServiceValues () throws ClientException, ApiException {
+    public void testCreateCommonValues () throws ClientException, ApiException {
         /*
         final Http2Client client = Http2Client.getInstance();
         final CountDownLatch latch = new CountDownLatch(1);
