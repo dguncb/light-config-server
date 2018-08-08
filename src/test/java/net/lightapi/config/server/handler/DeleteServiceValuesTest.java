@@ -22,20 +22,20 @@ import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class QueryServiceValuesTest {
+public class DeleteServiceValuesTest {
     @ClassRule
     public static TestServer server = TestServer.getInstance();
 
-    static final Logger logger = LoggerFactory.getLogger(QueryServiceValues.class); 
+    static final Logger logger = LoggerFactory.getLogger(DeleteServiceValues.class); 
     static final boolean enableHttp2 = server.getServerConfig().isEnableHttp2();
     static final boolean enableHttps = server.getServerConfig().isEnableHttps();
     static final int httpPort = server.getServerConfig().getHttpPort();
     static final int httpsPort = server.getServerConfig().getHttpsPort();
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
-    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"query-service-values\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"serviceAPI-1\"}}";
+    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"delete-service-values\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"serviceAPI-1\"}}";
 
     @Test
-    public void testQueryServiceValues() throws ClientException, ApiException {
+    public void testDeleteServiceValues() throws ClientException, ApiException {
 
         final Http2Client client = Http2Client.getInstance();
         final CountDownLatch latch = new CountDownLatch(1);

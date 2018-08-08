@@ -94,4 +94,9 @@ public class ConfigService implements ValueObject<ConfigService> {
   public void setRefreshed(boolean refreshed) {
     this.refreshed = refreshed;
   }
+
+  public String toString() {
+    return "Service:" + getServiceId() + ";" + getProfile() + ";" + getVersion();
+
+  }
 }

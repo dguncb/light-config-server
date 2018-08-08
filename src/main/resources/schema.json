@@ -1,22 +1,44 @@
-{"lightapi.net/config/update-common-secret/0.1.0":{"schema": {
-        "title": "Update a common key secret entry",
+{"lightapi.net/config/initialize-server/0.1.0":{"schema": {
+        "title": "Initialize Server Encryption Key",
         "type": "object",
         "properties": {
-          "key": {
+          "keyOne": {
             "type": "string"
           },
-          "secret": {
+          "keyTwo": {
             "type": "string"
           }
         },
         "required": [
-          "key",
-          "secret"
+          "keyOne",
+          "keyTwo"
         ]
-      },"scope": "light.config.w"},"lightapi.net/config/create-common-value/0.1.0":{"schema": {
-        "title": "Create a new common key value entry",
+      },"scope": "light.config.w"},"lightapi.net/config/retrieve-config/0.1.0":{"schema": {
+        "title": "Retrieve Config Zip File",
         "type": "object",
         "properties": {
+          "version": {
+            "type": "string"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "profile",
+          "serviceId"
+        ]
+      },"scope":{"exception":{"detailMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"version\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"profile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"version\",\r\n          \"profile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","suppressedExceptions":[],"cause":null,"localizedMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"version\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"profile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"version\",\r\n          \"profile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","message":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"version\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"profile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"version\",\r\n          \"profile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","ourStackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","className":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","className":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","className":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"methodName":"main"}],"stackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","className":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","className":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","className":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"methodName":"main"}],"stackTraceDepth":5,"suppressed":[]}}},"lightapi.net/config/update-service-value/0.1.0":{"schema": {
+        "title": "Update a service specific key value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
           "key": {
             "type": "string"
           },
@@ -25,6 +47,7 @@
           }
         },
         "required": [
+          "configServiceId",
           "key",
           "value"
         ]
@@ -54,7 +77,7 @@
         "title": "Query a service specific key value entry",
         "type": "object",
         "properties": {
-          "serviceId": {
+          "configServiceId": {
             "type": "string"
           },
           "key": {
@@ -62,14 +85,14 @@
           }
         },
         "required": [
-          "serviceId",
+          "configServiceId",
           "key"
         ]
       },"scope": "light.config.r"},"lightapi.net/config/create-service-secret/0.1.0":{"schema": {
         "title": "Create a new service specific key secret entry",
         "type": "object",
         "properties": {
-          "serviceId": {
+          "configServiceId": {
             "type": "string"
           },
           "key": {
@@ -80,7 +103,7 @@
           }
         },
         "required": [
-          "serviceId",
+          "configServiceId",
           "key",
           "secret"
         ]
@@ -90,58 +113,61 @@
         "properties": {
           "serviceId": {
             "type": "string"
-          }
+          },
+          "profile": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }            
         },
         "required": [
           "serviceId"
         ]
-      },"scope": "light.config.r"},"lightapi.net/config/create-common-values/0.1.0":{"schema": {
-        "title": "Create a list of common key value entry",
+      },"scope": "light.config.r"},"lightapi.net/config/query-service-secret/0.1.0":{"schema": {
+        "title": "Query a service specific key secret entry",
         "type": "object",
         "properties": {
           "configServiceId": {
             "type": "string"
           },
-          "values": {
-            "type": "array",
-            "items": {
-              "key": {
-                 "type": "string"
-                },
-              "value": {
-                "type": "string"
-              }            
-            }                    
+          "key": {
+            "type": "string"
+          }
         },
         "required": [
-          "configServiceId"
+          "configServiceId",
+          "key"
         ]
-      }
-     },"scope": "light.config.w"},"lightapi.net/config/query-service-secret/0.1.0":{"schema": {
-        "title": "Query a service specific key secret entry",
+      },"scope": "light.config.r"},"lightapi.net/config/delete-service/0.1.0":{"schema": {
+        "title": "Delete a created service",
         "type": "object",
         "properties": {
           "serviceId": {
             "type": "string"
           },
-          "key": {
+          "profile": {
             "type": "string"
-          }
+          },
+          "version": {
+            "type": "string"
+          }             
         },
         "required": [
           "serviceId",
-          "key"
+          "profile",
+          "version"          
         ]
-      },"scope": "light.config.r"},"lightapi.net/config/query-common-value/0.1.0":{"schema": {
-        "title": "Query a common key value entry",
+      },"scope": "light.config.w"},"lightapi.net/config/query-service-secrets/0.1.0":{"schema": {
+        "title": "Query all service specific key secret entries",
         "type": "object",
         "properties": {
-          "key": {
+          "configServiceId": {
             "type": "string"
           }
         },
         "required": [
-          "key"
+          "configServiceId"
         ]
       },"scope": "light.config.r"},"lightapi.net/config/delete-service-value/0.1.0":{"schema": {
         "title": "Delete a service specific key value entry",
@@ -158,15 +184,19 @@
           "configServiceId",
           "key"
         ]
-      },"scope": "light.config.w"},"lightapi.net/config/query-common-secrets/0.1.0":{"schema": {
-        "title": "Query all common key secret entries"
-      },"scope": "light.config.r"},"lightapi.net/config/update-service/0.1.0":{"schema": {
+      },"scope": "light.config.w"},"lightapi.net/config/update-service/0.1.0":{"schema": {
         "title": "Update meta data for a created service",
         "type": "object",
         "properties": {
           "serviceId": {
             "type": "string"
           },
+          "profile": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },           
           "encryptionAlgorithm": {
             "type": "string",
             "enum": [
@@ -185,15 +215,66 @@
         },
         "required": [
           "serviceId",
+          "profile",
+          "version",          
           "encryptionAlgorithm",
           "templateRepository",
           "serviceOwner"
+        ]
+      },"scope": "light.config.w"},"lightapi.net/config/create-service-value/0.1.0":{"schema": {
+        "title": "Create a new service specific key value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configServiceId",
+          "key",
+          "value"
+        ]
+      },"scope": "light.config.w"},"lightapi.net/config/update-service-secret/0.1.0":{"schema": {
+        "title": "Update a service specific key secret entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configServiceId",
+          "key",
+          "secret"
+        ]
+      },"scope": "light.config.w"},"lightapi.net/config/delete-service-values/0.1.0":{"schema": {
+        "title": "Delete services vy service Id",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "configServiceId"
         ]
       },"scope": "light.config.w"},"lightapi.net/config/delete-service-secret/0.1.0":{"schema": {
         "title": "Delete a service specific key secret entry",
         "type": "object",
         "properties": {
-          "serviceId": {
+          "configServiceId": {
             "type": "string"
           },
           "key": {
@@ -201,7 +282,7 @@
           }
         },
         "required": [
-          "serviceId",
+          "configServiceId",
           "key"
         ]
       },"scope": "light.config.w"},"lightapi.net/config/create-service/0.1.0":{"schema": {
@@ -241,193 +322,15 @@
           "version",
           "serviceOwner"
         ]
-      },"scope": "light.config.w"},"lightapi.net/config/create-common-secret/0.1.0":{"schema": {
-        "title": "Create a new common key secret entry",
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "secret": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "key",
-          "secret"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/query-common-secret/0.1.0":{"schema": {
-        "title": "Query a common key secret entry",
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "key"
-        ]
-      },"scope": "light.config.r"},"lightapi.net/config/initialize-server/0.1.0":{"schema": {
-        "title": "Initialize Server Encryption Key",
-        "type": "object",
-        "properties": {
-          "keyOne": {
-            "type": "string"
-          },
-          "keyTwo": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "keyOne",
-          "keyTwo"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/retrieve-config/0.1.0":{"schema": {
-        "title": "Retrieve Config Zip File",
-        "type": "object",
-        "properties": {
-          "frameworkVersion": {
-            "type": "string"
-          },
-          "buildProfile": {
-            "type": "string"
-          },
-          "serviceId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "frameworkVersion",
-          "buildProfile",
-          "serviceId"
-        ]
-      },"scope":{"exception":{"detailMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"frameworkVersion\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"buildProfile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"frameworkVersion\",\r\n          \"buildProfile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","suppressedExceptions":[],"cause":null,"localizedMessage":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"frameworkVersion\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"buildProfile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"frameworkVersion\",\r\n          \"buildProfile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","message":"Value not found: failed to get key scope from {name=retrieve-config, schema= {\r\n        \"title\": \"Retrieve Config Zip File\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"frameworkVersion\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"buildProfile\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"serviceId\": {\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"frameworkVersion\",\r\n          \"buildProfile\",\r\n          \"serviceId\"\r\n        ]\r\n      }, handler=RetrieveConfig, version=0.1.0}","ourStackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","className":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","className":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","className":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"methodName":"main"}],"stackTrace":[{"declaringClass":"com.jsoniter.any.NotFoundAny","className":"com.jsoniter.any.NotFoundAny","fileName":"NotFoundAny.java","lineNumber":25,"methodName":"<init>"},{"declaringClass":"com.jsoniter.any.ObjectLazyAny","className":"com.jsoniter.any.ObjectLazyAny","fileName":"ObjectLazyAny.java","lineNumber":86,"methodName":"get"},{"declaringClass":"com.networknt.codegen.hybrid.HybridServiceGenerator","className":"com.networknt.codegen.hybrid.HybridServiceGenerator","fileName":"HybridServiceGenerator.java","lineNumber":89,"methodName":"generate"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":98,"methodName":"run"},{"declaringClass":"com.networknt.codegen.Cli","className":"com.networknt.codegen.Cli","fileName":"Cli.java","lineNumber":50,"methodName":"main"}],"stackTraceDepth":5,"suppressed":[]}}},"lightapi.net/config/delete-common-value/0.1.0":{"schema": {
-        "title": "Delete a common key value entry",
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "key"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/update-service-value/0.1.0":{"schema": {
-        "title": "Update a service specific key value entry",
-        "type": "object",
-        "properties": {
-          "serviceId": {
-            "type": "string"
-          },
-          "key": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "serviceId",
-          "key",
-          "value"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/delete-service/0.1.0":{"schema": {
-        "title": "Delete a created service",
-        "type": "object",
-        "properties": {
-          "serviceId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "serviceId"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/query-common-values/0.1.0":{"schema": {
-        "title": "Query all common key value entries"
-      },"scope": "light.config.r"},"lightapi.net/config/query-service-secrets/0.1.0":{"schema": {
-        "title": "Query all service specific key secret entries",
-        "type": "object",
-        "properties": {
-          "serviceId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "serviceId"
-        ]
-      },"scope": "light.config.r"},"lightapi.net/config/update-common-value/0.1.0":{"schema": {
-        "title": "Update a common key value entry",
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "key",
-          "value"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/create-service-value/0.1.0":{"schema": {
-        "title": "Create a new service specific key value entry",
-        "type": "object",
-        "properties": {
-          "configServiceId": {
-            "type": "string"
-          },
-          "key": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "configServiceId",
-          "key",
-          "value"
-        ]
-      },"scope": "light.config.w"},"lightapi.net/config/update-service-secret/0.1.0":{"schema": {
-        "title": "Update a service specific key secret entry",
-        "type": "object",
-        "properties": {
-          "serviceId": {
-            "type": "string"
-          },
-          "key": {
-            "type": "string"
-          },
-          "secret": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "serviceId",
-          "key",
-          "secret"
-        ]
       },"scope": "light.config.w"},"lightapi.net/config/query-service-values/0.1.0":{"schema": {
         "title": "Query all service specific key value entries",
         "type": "object",
         "properties": {
-          "serviceId": {
+          "configServiceId": {
             "type": "string"
           }
         },
         "required": [
-          "serviceId"
+          "configServiceId"
         ]
-      },"scope": "light.config.r"},"lightapi.net/config/delete-common-secret/0.1.0":{"schema": {
-        "title": "Delete a common key secret entry",
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "key"
-        ]
-      },"scope": "light.config.w"}}
+      },"scope": "light.config.r"}}

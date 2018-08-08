@@ -30,6 +30,11 @@ public class ConfigRepositoryArrangoImpl implements ConfigRepository{
     }
 
     @Override
+    public String deleteConfigService(ConfigService configService){
+        return null;
+    }
+
+    @Override
     public int  deleteServiceValue(String key, String serviceId ) {
         if(logger.isDebugEnabled()) logger.debug("Delete the service value key=:" + key + "; serviceId = " + serviceId);
 
@@ -137,11 +142,17 @@ public class ConfigRepositoryArrangoImpl implements ConfigRepository{
     }
 
     @Override
-    public ConfigService queryConfigServiceId(String serviceId, String profile){
+    public ConfigService queryConfigService(String serviceId, String profile , String version){
         return null;
     }
 
+    @Override
     public String createConfigService(ConfigService configService){
+        return null;
+    }
+
+    @Override
+    public ConfigService updateConfigService(ConfigService configService) {
         return null;
     }
 }

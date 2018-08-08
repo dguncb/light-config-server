@@ -2,6 +2,7 @@
 package net.lightapi.config.server.handler;
 
 import com.networknt.client.Http2Client;
+import com.networknt.eventuate.common.impl.JSonMapper;
 import com.networknt.exception.ApiException;
 import com.networknt.exception.ClientException;
 import io.undertow.UndertowOptions;
@@ -10,6 +11,7 @@ import io.undertow.client.ClientRequest;
 import io.undertow.client.ClientResponse;
 import io.undertow.util.Headers;
 import io.undertow.util.Methods;
+import net.lightapi.config.server.common.ConfigService;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -35,7 +37,7 @@ public class DeleteServiceTest {
 
     @Test
     public void testDeleteService() throws ClientException, ApiException {
-        /*
+
         final Http2Client client = Http2Client.getInstance();
         final CountDownLatch latch = new CountDownLatch(1);
         final ClientConnection connection;
@@ -44,12 +46,24 @@ public class DeleteServiceTest {
         } catch (Exception e) {
             throw new ClientException(e);
         }
+        ServiceRequest serviceRequest = new ServiceRequest("lightapi.net", "config", "delete-service", "0.1.0");
+        ConfigService configService = new ConfigService();
+        configService.setServiceId("config-service-1.1,1");
+        configService.setTemplateRepository("git@github.com:networknt/light-config-server.git");
+        configService.setProfile("DEV/DIT");
+        configService.setVersion("1.1.1");
+
+        serviceRequest.setData(configService);
+
+        String json = JSonMapper.toJson(serviceRequest);
+        System.out.println("\n request json string: " + json);
+
         final AtomicReference<ClientResponse> reference = new AtomicReference<>();
         try {
             ClientRequest request = new ClientRequest().setPath("/api/json").setMethod(Methods.POST);
             request.getRequestHeaders().put(Headers.CONTENT_TYPE, "application/json");
             request.getRequestHeaders().put(Headers.TRANSFER_ENCODING, "chunked");
-            connection.sendRequest(request, client.createClientCallback(reference, latch, "request body to be replaced"));
+            connection.sendRequest(request, client.createClientCallback(reference, latch, json));
             latch.await();
         } catch (Exception e) {
             logger.error("Exception: ", e);
@@ -61,6 +75,6 @@ public class DeleteServiceTest {
         String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
         Assert.assertEquals(200, statusCode);
         Assert.assertNotNull(body);
-        */
+
     }
 }

@@ -50,11 +50,18 @@ public interface ConfigRepository {
   ConfigValue createServiceValue(ConfigValue configValue, String serviceId);
 
   /**
-   * Stores the given Config key value pair.
+   * Stores the given Config service.
    * @param configService a {@link ConfigService}
    * @return the config_service_id
    */
   String createConfigService(ConfigService configService);
+
+  /**
+   * delete the service.
+   * @param configService a {@link ConfigService}
+   * @return the config_service_id
+   */
+  String deleteConfigService(ConfigService configService);
 
   /**
    * Stores the given Config key value pair.
@@ -100,6 +107,13 @@ public interface ConfigRepository {
    * @return the stored {@link ConfigValue}
    */
   ConfigValue updateServiceValue(ConfigValue configValue, String serviceId);
+
+  /**
+   * Update the given Config service.
+   * @param configService a {@link ConfigService}
+   * @return the ConfigService
+   */
+  ConfigService updateConfigService(ConfigService configService);
 
   /**
    * update the given Config key value pair.
@@ -163,5 +177,5 @@ public interface ConfigRepository {
    */
   List<ConfigValue> queryCommonValues();
 
-  ConfigService queryConfigServiceId(String serviceId, String profile);
+  ConfigService queryConfigService(String serviceId, String profile, String version);
 }

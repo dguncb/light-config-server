@@ -10,29 +10,27 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 
 import io.undertow.server.HttpServerExchange;
-import net.lightapi.config.server.common.ConfigService;
-import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.jdbc.ConfigRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ServiceHandler(id="lightapi.net/config/update-service-value/0.1.0")
-public class UpdateServiceValue implements Handler {
-    static final Logger logger = LoggerFactory.getLogger(UpdateServiceValue.class);
+@ServiceHandler(id="lightapi.net/config/delete-service-values/0.1.0")
+public class DeleteServiceValues implements Handler {
+    static final Logger logger = LoggerFactory.getLogger(DeleteServiceValues.class);
     private ConfigRepository configRepository = (ConfigRepository) SingletonServiceFactory.getBean(ConfigRepository.class);
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
         ObjectMapper mapper = new ObjectMapper();
+
         String result;
 
         try {
             String json = mapper.writeValueAsString(input);
-            System.out.println("json" + json);
             Map<String, String> configValueMap = mapper.readValue(json, Map.class);
-            String serviceId = configValueMap.get("configServiceId");
-            ConfigValue configValue = new ConfigValue(configValueMap.get("key"), configValueMap.get("value"));
-             configValue = configRepository.updateServiceValue(configValue,serviceId);
-            result =mapper.writeValueAsString(configValue);
+            String configServiceId = configValueMap.get("configServiceId");
+            int rec = configRepository.deleteServiceValues(configServiceId);
+            result = mapper.writeValueAsString(rec);
+
         } catch (Exception e) {
             result = e.getMessage();
         }

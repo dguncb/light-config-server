@@ -36,9 +36,11 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
     private static final String DELETE_SERVICE_SECRET = "DELETE FROM config_secret WHERE config_key = ? AND config_service_id = ?";
     private static final String DELETE_SERVICE_VALUE = "DELETE FROM config_value WHERE config_key = ? AND config_service_id = ?";
     private static final String DELETE_SERVICE_VALUES = "DELETE FROM config_value WHERE config_service_id = ?";
+    private static final String DELETE_CONFIG_SERVICE = "DELETE FROM config_service WHERE service_id = ? AND service_profile = ? AND service_version = ?";
 
     private static final String UPDATE_SERVICE_VALUE = "UPDATE config_value SET  config_value=? WHERE config_key = ? and config_service_id = ? ";
     private static final String UPDATE_SERVICE_SECRET = "UPDATE config_secret SET  config_secret_hash=?, config_secret_salt = ?  WHERE config_key = ? and config_service_id = ? ";
+    private static final String UPDATE_SERVICE = "UPDATE config_service  SET template_repository =? , service_owner = ?  WHERE service_id = ? AND service_profile =? AND  service_version = ?";
 
     private static final String QUERY_SERVICE_SECRET = "SELECT config_key, config_secret_hash, config_secret_salt FROM config_secret  WHERE config_key = ? and config_service_id = ? ";
     private static final String QUERY_SERVICE_VALUE = "SELECT config_key, config_value FROM config_value  WHERE config_key = ? and config_service_id = ? ";
@@ -89,6 +91,22 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    @Override
+    public String deleteConfigService(ConfigService configService){
+        if(logger.isDebugEnabled()) logger.debug("Delete the service  key=:" + configService.getServiceId() + "; profile = " + configService.getProfile());
+
+        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(DELETE_CONFIG_SERVICE)) {
+            stmt.setString(1, configService.getServiceId());
+            stmt.setString(2, configService.getProfile());
+            stmt.setString(3, configService.getVersion());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Exception:", e);
+            throw new RuntimeException(e);
+        }
+        return configService.toString();
     }
 
     @Override
@@ -345,7 +363,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
     }
 
     @Override
-    public ConfigService queryConfigServiceId(String serviceId, String profile){
+    public ConfigService queryConfigService(String serviceId, String profile , String version){
         ConfigService configService = null;
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(GET_SERVICE_CONFIG_ID)) {
             stmt.setString(1, serviceId);
@@ -369,4 +387,21 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         return configService;
     }
 
+
+    @Override
+    public ConfigService updateConfigService(ConfigService configService) {
+        if(logger.isDebugEnabled()) logger.debug("update config SERVICE :"  + configService.getServiceId() + "; " + configService.getProfile());
+        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(UPDATE_SERVICE)) {
+            stmt.setString(1, configService.getTemplateRepository());
+            stmt.setString(2, configService.getServiceOwner());
+            stmt.setString(3, configService.getServiceId());
+            stmt.setString(4, configService.getProfile());
+            stmt.setString(5, configService.getVersion());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Exception:", e);
+            throw new RuntimeException(e);
+        }
+        return configService;
+    }
 }

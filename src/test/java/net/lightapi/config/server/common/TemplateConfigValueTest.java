@@ -18,8 +18,8 @@ public class TemplateConfigValueTest {
     public static void setUp() {
 
 
-        ConfigValue  configValue1 = new ConfigValue("sever/keystoreName", "tls/server.keystore");
-        ConfigValue  configValue2 = new ConfigValue("sever/truststoreName", "tls/server.truststore");
+        ConfigValue  configValue1 = new ConfigValue("server/keystoreName", "tls/server.keystore");
+        ConfigValue  configValue2 = new ConfigValue("server/truststoreName", "tls/server.truststore");
         ConfigValue  configValue3 = new ConfigValue("user/email", "aaa@gmail.com");
 
         configValues = new ArrayList<>();
@@ -35,6 +35,7 @@ public class TemplateConfigValueTest {
 
         TemplateConfigValue templateConfigValue = TemplateConfigValue.builder().with(configValues).build();
         assertTrue(templateConfigValue.transform("user").size()==1);
+        
         assertTrue(templateConfigValue.transform("server").size()==2);
     }
 }
