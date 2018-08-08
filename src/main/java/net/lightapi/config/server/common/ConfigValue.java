@@ -24,6 +24,10 @@ public class ConfigValue implements ValueObject<ConfigValue> {
     this.value = value;
   }
 
+  public ConfigValue() {
+
+  }
+
   public String getKey() {
     return key;
   }

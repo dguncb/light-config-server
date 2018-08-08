@@ -35,7 +35,7 @@
           "configServiceId": {
             "type": "string"
           },
-          "connmanValues": {
+          "values": {
             "type": "array",
             "items": {
               "key": {
@@ -102,7 +102,7 @@
           "configServiceId": {
             "type": "string"
           },
-          "connmanValues": {
+          "values": {
             "type": "array",
             "items": {
               "key": {
@@ -147,7 +147,7 @@
         "title": "Delete a service specific key value entry",
         "type": "object",
         "properties": {
-          "serviceId": {
+          "configServiceId": {
             "type": "string"
           },
           "key": {
@@ -155,7 +155,7 @@
           }
         },
         "required": [
-          "serviceId",
+          "configServiceId",
           "key"
         ]
       },"scope": "light.config.w"},"lightapi.net/config/query-common-secrets/0.1.0":{"schema": {
@@ -374,7 +374,7 @@
         "title": "Create a new service specific key value entry",
         "type": "object",
         "properties": {
-          "serviceId": {
+          "configServiceId": {
             "type": "string"
           },
           "key": {
@@ -385,7 +385,7 @@
           }
         },
         "required": [
-          "serviceId",
+          "configServiceId",
           "key",
           "value"
         ]

@@ -116,7 +116,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
         try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE)) {
             stmt.setString(1, configService.getConfigServiceId());
             stmt.setString(2, configService.getProfile());
-            stmt.setString(3, configService.getServiceId());
+            stmt.setString(3, configService.getServiceId()==null? COMMON_KEY : configService.getServiceId());
             stmt.setString(4, configService.getVersion());
             stmt.setString(5, configService.getTemplateRepository());
             stmt.setString(6, configService.getServiceOwner());

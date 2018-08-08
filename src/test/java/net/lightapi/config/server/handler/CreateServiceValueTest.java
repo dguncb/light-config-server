@@ -33,9 +33,12 @@ public class CreateServiceValueTest {
     static final int httpsPort = server.getServerConfig().getHttpsPort();
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
 
+    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"create-service-value\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"serviceAPI-1\",\"key\":\"testUser\",\"value\":\"1222222\"}}";
+
+
     @Test
     public void testCreateServiceValue() throws ClientException, ApiException {
-        /*
+
         final Http2Client client = Http2Client.getInstance();
         final CountDownLatch latch = new CountDownLatch(1);
         final ClientConnection connection;
@@ -44,12 +47,13 @@ public class CreateServiceValueTest {
         } catch (Exception e) {
             throw new ClientException(e);
         }
+        System.out.println("json:" + s);
         final AtomicReference<ClientResponse> reference = new AtomicReference<>();
         try {
             ClientRequest request = new ClientRequest().setPath("/api/json").setMethod(Methods.POST);
             request.getRequestHeaders().put(Headers.CONTENT_TYPE, "application/json");
             request.getRequestHeaders().put(Headers.TRANSFER_ENCODING, "chunked");
-            connection.sendRequest(request, client.createClientCallback(reference, latch, "request body to be replaced"));
+            connection.sendRequest(request, client.createClientCallback(reference, latch, s));
             latch.await();
         } catch (Exception e) {
             logger.error("Exception: ", e);
@@ -59,8 +63,9 @@ public class CreateServiceValueTest {
         }
         int statusCode = reference.get().getResponseCode();
         String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+        System.out.println("body:" + body);
         Assert.assertEquals(200, statusCode);
         Assert.assertNotNull(body);
-        */
+
     }
 }
