@@ -53,7 +53,7 @@ public class RetrieveConfig implements Handler {
         } catch (Exception e) {
             result = e.getMessage();
         }
-        
+
 
         return NioUtils.toByteBuffer("");
     }
