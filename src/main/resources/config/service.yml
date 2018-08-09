@@ -41,3 +41,8 @@ singletons:
 
 - net.lightapi.config.server.jdbc.ConfigRepository:
   - net.lightapi.config.server.jdbc.ConfigRepositoryJdbcImpl
+- net.lightapi.config.server.common.template.FileLoader:
+  - net.lightapi.config.server.common.template.TemplatesFileLoader
+- net.lightapi.config.server.service.ConfigValueProcessor:
+  - net.lightapi.config.server.service.ConfigValueProcessorImpl
+

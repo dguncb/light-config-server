@@ -35,7 +35,7 @@ public class TemplateConfigValueTest {
 
         TemplateConfigValue templateConfigValue = TemplateConfigValue.builder().with(configValues).build();
         assertTrue(templateConfigValue.transform("user").size()==1);
-        
+
         assertTrue(templateConfigValue.transform("server").size()==2);
     }
 }
