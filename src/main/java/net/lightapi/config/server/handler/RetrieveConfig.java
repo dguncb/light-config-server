@@ -8,6 +8,9 @@ import com.networknt.rpc.Handler;
 import com.networknt.rpc.router.ServiceHandler;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +36,7 @@ public class RetrieveConfig implements Handler {
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
 
         ObjectMapper mapper = new ObjectMapper();
-        String result;
+        String resultFile;
 
         try {
             String json = mapper.writeValueAsString(input);
@@ -43,18 +46,29 @@ public class RetrieveConfig implements Handler {
             String profile = configValueMap.get("profile");
             String version = configValueMap.get("version");
             ConfigService configService = configRepository.queryConfigService(serviceId, profile, version);
-            ConfigService commonConfigService = configRepository.queryConfigService(ConfigRepository.COMMON_KEY, profile, version);
-            TemplateConfigValue templateConfigValue = TemplateConfigValue.builder().with(configRepository.queryServiceValues(configService.getConfigServiceId()))
-                    .with(configRepository.queryServiceValues(commonConfigService.getConfigServiceId())).build();
+            TemplateConfigValue templateConfigValue = configValueProcessor.processConfigValues(serviceId, profile, version);
 
             configValueProcessor.getTemplateFromRepo(configService);
-            configValueProcessor.processTemplate(templateConfigValue, configService);
-
+            resultFile =  configValueProcessor.processTemplate(templateConfigValue, configService);
+            writeToOutputStream(resultFile, exchange.getOutputStream());
         } catch (Exception e) {
-            result = e.getMessage();
+            logger.error( e.getMessage());
         }
 
-
+        //TODO how to handle HttpServerExchange OutputStream ?????
         return NioUtils.toByteBuffer("");
+    }
+
+    private void writeToOutputStream(String filename, OutputStream oos) throws Exception {
+        File f = new File(filename);
+        byte[] buf = new byte[8192];
+        InputStream is = new FileInputStream(f);
+        int c = 0;
+        while ((c = is.read(buf, 0, buf.length)) > 0) {
+            oos.write(buf, 0, c);
+            oos.flush();
+        }
+        oos.close();
+        is.close();
     }
 }

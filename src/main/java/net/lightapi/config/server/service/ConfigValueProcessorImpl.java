@@ -59,24 +59,26 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
     }
 
     @Override
-    public TemplateConfigValue processConfigValues(List<ConfigValue> configValues, String serviceId  ) {
+    public TemplateConfigValue processConfigValues(List<ConfigValue> configValues) {
         return TemplateConfigValue.builder().with(configValues)
                 .build();
     }
 
     @Override
-    public TemplateConfigValue processConfigValues( String serviceId  ) {
-        return TemplateConfigValue.builder().with(configRepository.queryCommonValues()).with(configRepository.queryServiceValues(serviceId))
-                .build();
+    public TemplateConfigValue processConfigValues( String serviceId,  String profile, String version ) {
+        ConfigService configService = configRepository.queryConfigService(serviceId, profile, version);
+        ConfigService commonConfigService = configRepository.queryConfigService(ConfigRepository.COMMON_KEY, profile, version);
+        return  TemplateConfigValue.builder().with(configRepository.queryServiceValues(configService.getConfigServiceId()))
+                .with(configRepository.queryServiceValues(commonConfigService.getConfigServiceId())).build();
     }
 
     @Override
-    public void processTemplate(  TemplateConfigValue templateConfigValue, ConfigService configService ) throws Exception {
-        processTemplate(ABSOLUTE_REPOSITORIES, templateConfigValue, configService);
+    public String processTemplate(  TemplateConfigValue templateConfigValue, ConfigService configService ) throws Exception {
+        return processTemplate(ABSOLUTE_REPOSITORIES, templateConfigValue, configService);
     }
 
     @Override
-    public void processTemplate(  String sourceFolder, TemplateConfigValue templateConfigValue, ConfigService configService ) throws Exception {
+    public String processTemplate(  String sourceFolder, TemplateConfigValue templateConfigValue, ConfigService configService ) throws Exception {
 
         String targetFolder = ABSOLUTE_WORKING + "/" + configService.getVersion() + "/" + configService.getProfile() + "/" + configService.getServiceId() + "/config";
         String zipFile = ABSOLUTE_WORKING + "/" + configService.getVersion() + "/" + configService.getProfile()  + "/" + configService.getServiceId() + "/config.zip";
@@ -104,6 +106,7 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
             }
 
         }
+        return zipFile;
     }
 
     @Override

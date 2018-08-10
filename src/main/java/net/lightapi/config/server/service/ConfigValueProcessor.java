@@ -18,17 +18,24 @@ public interface ConfigValueProcessor {
      * Process the ConfigValue key-value list to template based map
      *
      * @param configValues list of ConfigValue object
-     * @param serviceId service Id for the config value
      * @return result config value map, key is the template name
      */
-    TemplateConfigValue processConfigValues(List<ConfigValue> configValues, String serviceId );
+    TemplateConfigValue processConfigValues(List<ConfigValue> configValues);
 
-    TemplateConfigValue processConfigValues(String serviceId );
+    /**
+     * Process the ConfigValue key-value list to template based map
+     *
+     * @param serviceId service Id for the config value
+     * @param profile list of config server profile which indicate environment: DIT/SIT/DEV...
+     * @param version service version
+     * @return result config value map, key is the template name
+     */
+    TemplateConfigValue processConfigValues(String serviceId,  String profile, String version);
 
-    void processTemplate( TemplateConfigValue templateConfigValue, ConfigService configService  ) throws Exception;
+    String  processTemplate( TemplateConfigValue templateConfigValue, ConfigService configService  ) throws Exception;
 
 
-    void processTemplate( String sourceFolder, TemplateConfigValue templateConfigValue, ConfigService configService  ) throws Exception;
+    String processTemplate( String sourceFolder, TemplateConfigValue templateConfigValue, ConfigService configService  ) throws Exception;
 
     void getTemplateFromRepo( ConfigService configService  );
 
