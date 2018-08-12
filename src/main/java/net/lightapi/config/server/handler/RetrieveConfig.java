@@ -12,12 +12,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.List;
+
+import io.undertow.util.HttpString;
 import java.util.Map;
 
 import io.undertow.server.HttpServerExchange;
 import net.lightapi.config.server.common.ConfigService;
-import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.common.template.TemplateConfigValue;
 import net.lightapi.config.server.common.template.TemplatesFileLoader;
 import net.lightapi.config.server.jdbc.ConfigRepository;
@@ -36,7 +36,7 @@ public class RetrieveConfig implements Handler {
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
 
         ObjectMapper mapper = new ObjectMapper();
-        String resultFile;
+        String resultFile = "config.zip";
 
         try {
             String json = mapper.writeValueAsString(input);
@@ -50,13 +50,18 @@ public class RetrieveConfig implements Handler {
 
             configValueProcessor.getTemplateFromRepo(configService);
             resultFile =  configValueProcessor.processTemplate(templateConfigValue, configService);
-            writeToOutputStream(resultFile, exchange.getOutputStream());
+          //  writeToOutputStream(resultFile, exchange.getOutputStream());
         } catch (Exception e) {
             logger.error( e.getMessage());
         }
 
-        //TODO how to handle HttpServerExchange OutputStream ?????
-        return NioUtils.toByteBuffer("");
+
+        exchange.getResponseHeaders()
+                .add(new HttpString("Content-Type"), "application/zip")
+                .add(new HttpString("Content-Disposition"), "attachment");
+        File file = new File(resultFile);
+
+        return NioUtils.toByteBuffer(file);
     }
 
     private void writeToOutputStream(String filename, OutputStream oos) throws Exception {
