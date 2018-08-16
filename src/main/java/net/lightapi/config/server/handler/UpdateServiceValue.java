@@ -27,7 +27,6 @@ public class UpdateServiceValue implements Handler {
 
         try {
             String json = mapper.writeValueAsString(input);
-            System.out.println("json" + json);
             Map<String, String> configValueMap = mapper.readValue(json, Map.class);
             String serviceId = configValueMap.get("configServiceId");
             ConfigValue configValue = new ConfigValue(configValueMap.get("key"), configValueMap.get("value"));

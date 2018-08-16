@@ -76,7 +76,7 @@ public class CreateServiceTest {
         ServiceRequest serviceRequest = new ServiceRequest("lightapi.net", "config", "create-service", "0.1.0");
         ConfigService configService = new ConfigService();
         configService.setServiceId("config-service-1.1,1");
-        configService.setTemplateRepository("git@github.com:networknt/light-config-server.git");
+        configService.setTemplateRepository("https://github.com/chenyan71/light-config-template.git");
         configService.setProfile("DEV/DIT");
         configService.setVersion("1.1.1");
         configService.setServiceOwner("Google");

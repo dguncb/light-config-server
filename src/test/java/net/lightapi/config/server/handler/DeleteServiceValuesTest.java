@@ -32,7 +32,7 @@ public class DeleteServiceValuesTest {
     static final int httpPort = server.getServerConfig().getHttpPort();
     static final int httpsPort = server.getServerConfig().getHttpsPort();
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
-    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"delete-service-values\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"serviceAPI-1\"}}";
+    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"delete-service-values\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"0000016544447a9a-8ad2b8ca777a0000\"}}";
 
     @Test
     public void testDeleteServiceValues() throws ClientException, ApiException {

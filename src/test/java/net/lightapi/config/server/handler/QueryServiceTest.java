@@ -32,7 +32,7 @@ public class QueryServiceTest {
     static final int httpPort = server.getServerConfig().getHttpPort();
     static final int httpsPort = server.getServerConfig().getHttpsPort();
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
-    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"query-service\",\"version\":\"0.1.0\",\"data\":{\"serviceId\":\"serviceAPI-1\",\"profile\":\"SIT\",\"version\":\"1222222\"}}";
+    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"query-service\",\"version\":\"0.1.0\",\"data\":{\"serviceId\":\"config-service-1.1,1\",\"profile\":\"DEV/DIT\",\"version\":\"1.1.1\"}}";
 
     @Test
     public void testQueryService() throws ClientException, ApiException {
@@ -60,6 +60,7 @@ public class QueryServiceTest {
         }
         int statusCode = reference.get().getResponseCode();
         String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+        System.out.println("result:" + body);
         Assert.assertEquals(200, statusCode);
         Assert.assertNotNull(body);
 

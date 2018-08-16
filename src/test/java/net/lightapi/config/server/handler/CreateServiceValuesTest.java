@@ -41,7 +41,7 @@ public class CreateServiceValuesTest {
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
 
     public static DataSource ds;
-    static {
+  /*  static {
         ds = (DataSource) SingletonServiceFactory.getBean(DataSource.class);
         try (Connection connection = ds.getConnection()) {
             // Runscript doesn't work need to execute batch here.
@@ -57,9 +57,9 @@ public class CreateServiceValuesTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"create-service-values\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"serviceAPI-1\",\"values\":[{\"key\":\"testUser\",\"value\":\"1222222\"}, {\"key\":\"testUser2\",\"value\":\"2222222\"}]}}";
+    static final String s = "  {\"host\":\"lightapi.net\",\"service\":\"config\",\"action\":\"create-service-values\",\"version\":\"0.1.0\",\"data\":{\"configServiceId\":\"0000016544447a9a-8ad2b8ca777a0000\",\"values\":[{\"key\":\"server/httpsPort\",\"value\":\"8443\"}, {\"key\":\"server/enableHttps\",\"value\":\"true\"}]}}";
 
     @Test
     public void testCreateServiceValues () throws ClientException, ApiException {

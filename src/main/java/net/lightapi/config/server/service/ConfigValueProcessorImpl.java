@@ -66,10 +66,16 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
     @Override
     public TemplateConfigValue processConfigValues( String serviceId,  String profile, String version ) {
+        TemplateConfigValue templateConfigValue = null;
         ConfigService configService = configRepository.queryConfigService(serviceId, profile, version);
         ConfigService commonConfigService = configRepository.queryConfigService(ConfigRepository.COMMON_KEY, profile, version);
-        return  TemplateConfigValue.builder().with(configRepository.queryServiceValues(configService.getConfigServiceId()))
-                .with(configRepository.queryServiceValues(commonConfigService.getConfigServiceId())).build();
+        if (configService!=null) {
+       //     List<ConfigValue>  values = configRepository.queryServiceValues(configService.getConfigServiceId());
+            TemplateConfigValue.TemplateConfigValueBuilder builder = TemplateConfigValue.builder().with(configRepository.queryServiceValues(configService.getConfigServiceId()));
+            if (commonConfigService!=null) builder.with(configRepository.queryServiceValues(commonConfigService.getConfigServiceId()));
+            templateConfigValue = builder.build();
+        }
+        return  templateConfigValue;
     }
 
     @Override
