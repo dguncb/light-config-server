@@ -61,3 +61,190 @@ javax.sql.DataSource
 
 
 ![workflow](docs/light-config-server.png)
+
+
+### Verify the config server
+
+1. Build the config server module
+
+```
+cd ~/networknt/light-config-server
+git pull origin develop
+mvn clean install
+
+```
+
+2. Build Hybrid-command from light-portal
+
+```
+cd ~/networknt/light-portal
+git pull origin develop
+mvn clean install
+
+```
+
+3. Copy the Hybrid service required jar files for light-docker
+
+```
+cd ~/networknt/light-docker
+git pull origin develop
+cp ~/networknt/light-config-server/target/config-server-1.5.19.jar ~/networknt/light-docker/hybrid-services/service
+cp ~/networknt/light-portal/hybrid-command/target/hybrid-command.jar ~/networknt/light-docker/hybrid-services/service
+
+```
+
+4. Start hybrid service from light-docker
+
+```
+cd ~/networknt/light-docker
+docker-compose -f docker-compose-hybrid-service.yml up
+
+```
+
+
+
+5. Test create service:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"create-service","version":"0.1.0","data":{"serviceId":"config-service-1.1.0001","encryptionAlgorithm":"AES","templateRepository":"git@github.com:networknt/light-config-server.git","serviceOwner":"Google","version":"1.1.1","profile":"DEV/DIT","refreshed":false}}
+
+
+```
+
+The create service request return the generated config service Id, for example:  0000016543342c47-0242ac1300050000.
+
+Use the generated config service Id for the following tests;
+
+
+
+6. Test create config server value: key-value pair:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"create-service-value","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000","key":"server/serviceId","value":"1222222"}}
+
+```
+
+
+7. Test config server values: key-value pair array:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"create-service-values","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000","values":[{"key":"server/enableHttps","value":"true"}, {"key":"server/httpsPort","value":"true"}]}}
+
+```
+
+8. update service:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+ {"host":"lightapi.net","service":"config","action":"update-service","version":"0.1.0","data":{"serviceId":"config-service-1.1.0001","encryptionAlgorithm":"AES","templateRepository":"https://github.com/chenyan71/light-config-template.git","serviceOwner":"networknt","version":"1.1.1","profile":"DEV/DIT","refreshed":false}}
+
+```
+
+
+9. update config value:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"update-service-value","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000","key":"enableJwtCache","value":"false"}}
+
+```
+
+10. query  service:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"query-service","version":"0.1.0","data":{"serviceId":"config-service-1.1.0001","profile":"DEV/DIT","version":"1.1.1"}}
+
+```
+
+10. query  config value by specified service id and key:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+\{“host":"lightapi.net","service":"config","action":"query-service-value","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000","key":"enableJwtCache"}}
+
+```
+
+
+11. query  config values (config value key-pair list for specified service):
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+ {"host":"lightapi.net","service":"config","action":"query-service-values","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000"}}
+
+```
+
+
+
+12. delete service:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"delete-service","version":"0.1.0","data":{"serviceId":"config-service-1.1,1","encryptionAlgorithm":"AES","templateRepository":"git@github.com:networknt/light-config-server.git","version":"1.1.1","profile":"DEV/DIT","refreshed":false}}
+
+```
+
+
+13.delete config value by specified service id and key:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"delete-service-value","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000","key":"testUser"}}
+
+```
+
+
+14.delete config values:
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"delete-service-values","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000"}}
+
+```
+
+15.retrieve config values (config.zip file):
+
+```
+POST /api/json HTTP/1.1
+Host: localhost:8443
+Content-Type: application/json
+Cache-Control: no-cache
+{"host":"lightapi.net","service":"config","action":"retrieve-config","version":"0.1.0","data":{"serviceId":"config-service-1.1.0001","profile":"DEV/DIT","version":"1.1.1"}}
+
+```

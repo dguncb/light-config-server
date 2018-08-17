@@ -45,7 +45,7 @@ public class ConfigValueProcessorTest {
         content = "keystoreName: {server/keystoreName} \n truststoreName:{server/truststoreName}";
 
         configService = new ConfigService();
-        configService.setTemplateRepository("https://github.com/networknt/light-config-server.git");
+        configService.setTemplateRepository("https://github.com/chenyan71/light-config-template.git");
     }
 
 
@@ -69,8 +69,8 @@ public class ConfigValueProcessorTest {
 
     @Test
     public void testGetTemplateFromRepo()  {
-/*
 
+/*
         configValueProcessor.getTemplateFromRepo(configService);
         File file = new File(configValueProcessor.getRepoPath(configService));
         assertTrue(file.exists());
