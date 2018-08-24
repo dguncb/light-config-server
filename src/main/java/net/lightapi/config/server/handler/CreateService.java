@@ -1,17 +1,18 @@
 
 package net.lightapi.config.server.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.networknt.service.SingletonServiceFactory;
-import com.networknt.utility.NioUtils;
+import com.networknt.config.Config;
 import com.networknt.rpc.Handler;
 import com.networknt.rpc.router.ServiceHandler;
-import java.nio.ByteBuffer;
+import com.networknt.service.SingletonServiceFactory;
+import com.networknt.utility.NioUtils;
 import io.undertow.server.HttpServerExchange;
 import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.jdbc.ConfigRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
 
 @ServiceHandler(id="lightapi.net/config/create-service/0.1.0")
 public class CreateService implements Handler {
@@ -19,20 +20,15 @@ public class CreateService implements Handler {
     private ConfigRepository configRepository = (ConfigRepository) SingletonServiceFactory.getBean(ConfigRepository.class);
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
-
-
-        ObjectMapper mapper = new ObjectMapper();
-
+        if(logger.isDebugEnabled()) logger.debug("input = " + input);
         String result;
-
         try {
-            String json = mapper.writeValueAsString(input);
-            ConfigService configService = mapper.readValue(json, ConfigService.class);
+            ConfigService configService = Config.getInstance().getMapper().convertValue(input, ConfigService.class);
             result = configRepository.createConfigService(configService);
         } catch (Exception e) {
+
             result = e.getMessage();
         }
-
         return NioUtils.toByteBuffer(result);
     }
 }

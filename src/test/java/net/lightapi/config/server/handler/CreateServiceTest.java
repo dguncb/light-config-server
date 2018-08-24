@@ -99,10 +99,10 @@ public class CreateServiceTest {
             IoUtils.safeClose(connection);
         }
         int statusCode = reference.get().getResponseCode();
+        logger.debug("statusCode = " + statusCode);
         String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
-      //  System.out.println("result:" + body);
+        logger.debug("body = " + body);
         Assert.assertEquals(200, statusCode);
         Assert.assertNotNull(body);
-
     }
 }
