@@ -1,19 +1,15 @@
-
 package net.lightapi.config.server.handler;
 
-import com.networknt.config.Config;
-import com.networknt.utility.NioUtils;
 import com.networknt.rpc.Handler;
 import com.networknt.rpc.router.ServiceHandler;
+import com.networknt.utility.NioUtils;
+import io.undertow.server.HttpServerExchange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Map;
-
-import io.undertow.server.HttpServerExchange;
-import net.lightapi.config.server.common.ConfigService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * When a new light-config-server instance is deployed, the first step is to initialize
@@ -45,13 +41,17 @@ public class InitializeServer implements Handler {
     static final String INVALID_INITIALIZE_KEY_FORMAT = "ERR11401";
     static final String ERROR_WRITING_KEY_FILE = "ERR11402";
 
+    // This is a public static so that it can be accessed by other classes that need the key
+    // for encryption. It is possible to be null so other classes need to check if it is null.
     public static String key = null;
 
     static {
-        // a static block tries to load the key from filesystem.
+        // a static block tries to load the key from filesystem. If the key exists,
+        // then the initialize server action will return an error.
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             key = br.readLine();
         } catch (IOException e) {
+            // file not found but this is no an error. It just means the server is not inited.
             logger.info("The light-config-server is not initialized yet.", e);
         }
     }
@@ -78,6 +78,7 @@ public class InitializeServer implements Handler {
             logger.error("ERR11402", e);
             return NioUtils.toByteBuffer(getStatus(ERROR_WRITING_KEY_FILE, filename));
         }
+        // TODO return empty body. Should we return something more meaningful?
         return NioUtils.toByteBuffer(result);
     }
 }

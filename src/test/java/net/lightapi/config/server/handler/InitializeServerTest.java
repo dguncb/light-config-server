@@ -11,7 +11,6 @@ import io.undertow.client.ClientRequest;
 import io.undertow.client.ClientResponse;
 import io.undertow.util.Headers;
 import io.undertow.util.Methods;
-import net.lightapi.config.server.common.ConfigService;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -37,6 +36,13 @@ public class InitializeServerTest {
     static final int httpsPort = server.getServerConfig().getHttpsPort();
     static final String url = enableHttp2 || enableHttps ? "https://localhost:" + httpsPort : "http://localhost:" + httpPort;
 
+    /**
+     * The first time to run this test, the service will create light-config-server.conf in the home directory.
+     * The second time the service will just load the key from the filesystem and give back and error.
+     *
+     * @throws ClientException clientException
+     * @throws ApiException exception
+     */
     @Test
     public void testInitializeServer() throws ClientException, ApiException {
         final Http2Client client = Http2Client.getInstance();
