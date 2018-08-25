@@ -2,6 +2,7 @@
 package net.lightapi.config.server.handler;
 
 import com.networknt.client.Http2Client;
+import com.networknt.config.Config;
 import com.networknt.exception.ApiException;
 import com.networknt.exception.ClientException;
 import io.undertow.UndertowOptions;
@@ -10,6 +11,7 @@ import io.undertow.client.ClientRequest;
 import io.undertow.client.ClientResponse;
 import io.undertow.util.Headers;
 import io.undertow.util.Methods;
+import net.lightapi.config.server.common.ConfigService;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -19,6 +21,8 @@ import org.xnio.IoUtils;
 import org.xnio.OptionMap;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -35,7 +39,6 @@ public class InitializeServerTest {
 
     @Test
     public void testInitializeServer() throws ClientException, ApiException {
-        /*
         final Http2Client client = Http2Client.getInstance();
         final CountDownLatch latch = new CountDownLatch(1);
         final ClientConnection connection;
@@ -44,12 +47,21 @@ public class InitializeServerTest {
         } catch (Exception e) {
             throw new ClientException(e);
         }
+        Map<String, Object> srMap = new HashMap<>();
+        srMap.put("host", "lightapi.net");
+        srMap.put("service", "config");
+        srMap.put("action", "initialize-server");
+        srMap.put("version", "0.1.0");
+        Map<String, Object> keyMap = new HashMap<>();
+        keyMap.put("key", "part1part2");
+        srMap.put("data", keyMap);
+
         final AtomicReference<ClientResponse> reference = new AtomicReference<>();
         try {
             ClientRequest request = new ClientRequest().setPath("/api/json").setMethod(Methods.POST);
             request.getRequestHeaders().put(Headers.CONTENT_TYPE, "application/json");
             request.getRequestHeaders().put(Headers.TRANSFER_ENCODING, "chunked");
-            connection.sendRequest(request, client.createClientCallback(reference, latch, "request body to be replaced"));
+            connection.sendRequest(request, client.createClientCallback(reference, latch, Config.getInstance().getMapper().writeValueAsString(srMap)));
             latch.await();
         } catch (Exception e) {
             logger.error("Exception: ", e);
@@ -58,9 +70,10 @@ public class InitializeServerTest {
             IoUtils.safeClose(connection);
         }
         int statusCode = reference.get().getResponseCode();
+        logger.debug("statusCode = " + statusCode);
         String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+        logger.debug("body = " + body);
         Assert.assertEquals(200, statusCode);
         Assert.assertNotNull(body);
-        */
     }
 }

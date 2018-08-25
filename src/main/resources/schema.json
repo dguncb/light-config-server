@@ -4,14 +4,10 @@
         "properties": {
           "keyOne": {
             "type": "string"
-          },
-          "keyTwo": {
-            "type": "string"
           }
         },
         "required": [
-          "keyOne",
-          "keyTwo"
+          "key"
         ]
       },"scope": "light.config.w"},"lightapi.net/config/retrieve-config/0.1.0":{"schema": {
         "title": "Retrieve Config Zip File",
