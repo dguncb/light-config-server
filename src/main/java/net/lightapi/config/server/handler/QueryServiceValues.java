@@ -13,6 +13,7 @@ import java.util.Map;
 import io.undertow.server.HttpServerExchange;
 import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.jdbc.ConfigRepository;
+import net.lightapi.config.server.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ public class QueryServiceValues implements Handler {
             result = configValues==null?"no records return":mapper.writeValueAsString(configValues);
 
         } catch (Exception e) {
-            result = e.getMessage();
+            result = ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage());
         }
 
         return NioUtils.toByteBuffer(result);

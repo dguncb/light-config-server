@@ -22,6 +22,7 @@ import net.lightapi.config.server.common.template.TemplateConfigValue;
 import net.lightapi.config.server.common.template.TemplatesFileLoader;
 import net.lightapi.config.server.jdbc.ConfigRepository;
 import net.lightapi.config.server.service.ConfigValueProcessorImpl;
+import net.lightapi.config.server.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +54,7 @@ public class RetrieveConfig implements Handler {
           //  writeToOutputStream(resultFile, exchange.getOutputStream());
         } catch (Exception e) {
             logger.error( e.getMessage());
+            return NioUtils.toByteBuffer(ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage()));
         }
 
 

@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import io.undertow.server.HttpServerExchange;
 import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.jdbc.ConfigRepository;
+import net.lightapi.config.server.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class DeleteService implements Handler {
             ConfigService configService = mapper.readValue(json, ConfigService.class);
             result = configRepository.deleteConfigService(configService);
         } catch (Exception e) {
-            result = e.getMessage();
+            result = ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage());
         }
 
         return NioUtils.toByteBuffer(result);
