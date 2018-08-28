@@ -2,9 +2,11 @@ package net.lightapi.config.server.service;
 
 import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
+import net.lightapi.config.server.common.crypto.AESConfigSecurity;
 import net.lightapi.config.server.common.paths.ConfigKeyValuePath;
 import net.lightapi.config.server.common.template.FileLoader;
 import net.lightapi.config.server.common.template.TemplateConfigValue;
+import net.lightapi.config.server.handler.InitializeServer;
 import net.lightapi.config.server.jdbc.ConfigRepository;
 import net.lightapi.config.server.util.FileUtils;
 import org.slf4j.Logger;
@@ -19,11 +21,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -32,6 +36,8 @@ import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
+import static com.networknt.utility.Decryptor.CRYPT_PREFIX;
 
 public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
@@ -47,6 +53,7 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
     private final ConfigRepository configRepository;
     private final FileLoader fileLoader;
+    private AESConfigSecurity aESConfigSecurity;
 
     public ConfigValueProcessorImpl (ConfigRepository configRepository,  FileLoader fileLoader){
         this.configRepository = configRepository;
@@ -56,6 +63,9 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
         initializeDirectory(ABSOLUTE_WORKING);
         if(logger.isDebugEnabled()) logger.debug("initialize repositories directory " + ABSOLUTE_REPOSITORIES);
         initializeDirectory(ABSOLUTE_REPOSITORIES);
+        if (InitializeServer.key!=null) {
+            aESConfigSecurity= new AESConfigSecurity(InitializeServer.key);
+        }
     }
 
     @Override
@@ -250,5 +260,22 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
     protected String getRepoPath(ConfigService configService) {
         return ABSOLUTE_REPOSITORIES + getRepoName(configService.getTemplateRepository());
+    }
+
+    protected  List<ConfigValue> getClearTextConfigValues (String configServiceId) {
+        List<ConfigValue>  configValues = configRepository.queryServiceValues(configServiceId);
+
+        if (aESConfigSecurity !=null) {
+            configValues = configValues.stream().map(c->decrptValue(c)).collect(Collectors.toList());
+        }
+        return configValues;
+    }
+
+    protected  ConfigValue decrptValue (ConfigValue sourceConfig) {
+        if (sourceConfig.getValue().startsWith(CRYPT_PREFIX) ) {
+            sourceConfig.setValue(aESConfigSecurity.decrypt(sourceConfig.getValue()));
+
+        }
+        return sourceConfig;
     }
 }

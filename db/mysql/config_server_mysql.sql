@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS config_service;
 
 CREATE TABLE config_value (
   config_key VARCHAR(256) NOT NULL,
-  config_value VARCHAR(256) NOT NULL,
+  config_value VARCHAR(2048) NOT NULL,
   config_service_id VARCHAR(256) NOT NULL,
   PRIMARY KEY (config_key, config_service_id)
 )

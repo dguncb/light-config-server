@@ -26,7 +26,7 @@ public class CreateService implements Handler {
         String result;
         try {
             ConfigService configService = Config.getInstance().getMapper().convertValue(input, ConfigService.class);
-            result = configRepository.createConfigService(configService);
+            result = Config.getInstance().getMapper().writeValueAsString(configRepository.createConfigService(configService));
         } catch (Exception e) {
             result = ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage());
         }

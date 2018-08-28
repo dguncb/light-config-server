@@ -147,7 +147,7 @@ public class ConfigRepositoryArrangoImpl implements ConfigRepository{
     }
 
     @Override
-    public String createConfigService(ConfigService configService){
+    public ConfigService createConfigService(ConfigService configService){
         return null;
     }
 

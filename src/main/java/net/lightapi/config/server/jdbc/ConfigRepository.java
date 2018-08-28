@@ -52,9 +52,9 @@ public interface ConfigRepository {
   /**
    * Stores the given Config service.
    * @param configService a {@link ConfigService}
-   * @return the config_service_id
+   * @return the config_service object
    */
-  String createConfigService(ConfigService configService);
+  ConfigService createConfigService(ConfigService configService);
 
   /**
    * delete the service.

@@ -125,7 +125,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
     }
 
     @Override
-    public String createConfigService(ConfigService configService){
+    public ConfigService createConfigService(ConfigService configService){
         if(logger.isDebugEnabled()) logger.debug("Store config service :"  + configService.getServiceId() + "; " + configService.getProfile());
         if (configService.getConfigServiceId()==null) {
             IdGenerator idGenerator = new IdGeneratorImpl();
@@ -143,7 +143,7 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
             logger.error("Exception:", e);
             throw new RuntimeException(e);
         }
-        return configService.getConfigServiceId();
+        return configService;
     }
 
     @Override
