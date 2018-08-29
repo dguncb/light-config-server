@@ -1,7 +1,7 @@
 
 package net.lightapi.config.server.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.networknt.config.Config;
 import com.networknt.service.SingletonServiceFactory;
 import com.networknt.utility.NioUtils;
 import com.networknt.rpc.Handler;
@@ -21,16 +21,14 @@ public class DeleteServiceValues implements Handler {
     private ConfigRepository configRepository = (ConfigRepository) SingletonServiceFactory.getBean(ConfigRepository.class);
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
-        ObjectMapper mapper = new ObjectMapper();
 
         String result;
 
         try {
-            String json = mapper.writeValueAsString(input);
-            Map<String, String> configValueMap = mapper.readValue(json, Map.class);
+            Map<String, String> configValueMap = Config.getInstance().getMapper().convertValue(input, Map.class);
             String configServiceId = configValueMap.get("configServiceId");
             int rec = configRepository.deleteServiceValues(configServiceId);
-            result = mapper.writeValueAsString(rec);
+            result = Config.getInstance().getMapper().writeValueAsString(rec);
 
         } catch (Exception e) {
             result = ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage());

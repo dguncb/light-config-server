@@ -1,7 +1,7 @@
 
 package net.lightapi.config.server.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.networknt.config.Config;
 import com.networknt.service.SingletonServiceFactory;
 import com.networknt.utility.NioUtils;
 import com.networknt.rpc.Handler;
@@ -20,15 +20,12 @@ public class UpdateService implements Handler {
     private ConfigRepository configRepository = (ConfigRepository) SingletonServiceFactory.getBean(ConfigRepository.class);
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
-        ObjectMapper mapper = new ObjectMapper();
-
         String result;
 
         try {
-            String json = mapper.writeValueAsString(input);
-            ConfigService configService = mapper.readValue(json, ConfigService.class);
+            ConfigService configService = Config.getInstance().getMapper().convertValue(input, ConfigService.class);
             configService = configRepository.updateConfigService(configService);
-            result = configService ==null?"empty":mapper.writeValueAsString(configService);
+            result = configService ==null?"empty":Config.getInstance().getMapper().writeValueAsString(configService);
         } catch (Exception e) {
             result = ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage());
         }

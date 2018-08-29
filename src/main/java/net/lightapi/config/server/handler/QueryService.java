@@ -1,7 +1,7 @@
 
 package net.lightapi.config.server.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.networknt.config.Config;
 import com.networknt.service.SingletonServiceFactory;
 import com.networknt.utility.NioUtils;
 import com.networknt.rpc.Handler;
@@ -23,17 +23,15 @@ public class QueryService implements Handler {
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
 
-        ObjectMapper mapper = new ObjectMapper();
         String result;
 
         try {
-            String json = mapper.writeValueAsString(input);
-            Map<String, String> configValueMap = mapper.readValue(json, Map.class);
+            Map<String, String> configValueMap = Config.getInstance().getMapper().convertValue(input, Map.class);
             String serviceId = configValueMap.get("serviceId");
             String profile = configValueMap.get("profile");
             String version = configValueMap.get("version");
             ConfigService configService = configRepository.queryConfigService(serviceId, profile, version);
-            result = configService==null?"no record return":mapper.writeValueAsString(configService);
+            result = configService==null?"no record return":Config.getInstance().getMapper().writeValueAsString(configService);
         } catch (Exception e) {
             result = ResponseUtil.populateErrorResponse(getClass().getName(), e.getMessage());
 

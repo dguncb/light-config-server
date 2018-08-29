@@ -11,7 +11,6 @@ import java.util.Map;
 
 import io.undertow.server.HttpServerExchange;
 import net.lightapi.config.server.common.ConfigValue;
-import net.lightapi.config.server.common.crypto.AESConfigSecurity;
 import net.lightapi.config.server.jdbc.ConfigRepository;
 import net.lightapi.config.server.util.ResponseUtil;
 import org.slf4j.Logger;

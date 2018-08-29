@@ -80,8 +80,8 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
         ConfigService configService = configRepository.queryConfigService(serviceId, profile, version);
         ConfigService commonConfigService = configRepository.queryConfigService(ConfigRepository.COMMON_KEY, profile, version);
         if (configService!=null) {
-            TemplateConfigValue.TemplateConfigValueBuilder builder = TemplateConfigValue.builder().with(configRepository.queryServiceValues(configService.getConfigServiceId()));
-            if (commonConfigService!=null) builder.with(configRepository.queryServiceValues(commonConfigService.getConfigServiceId()));
+            TemplateConfigValue.TemplateConfigValueBuilder builder = TemplateConfigValue.builder().with(getClearTextConfigValues(configService.getConfigServiceId()));
+            if (commonConfigService!=null) builder.with(getClearTextConfigValues(commonConfigService.getConfigServiceId()));
             templateConfigValue = builder.build();
         }
         return  templateConfigValue;

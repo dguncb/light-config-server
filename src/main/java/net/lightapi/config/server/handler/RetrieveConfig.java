@@ -1,7 +1,7 @@
 
 package net.lightapi.config.server.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.networknt.config.Config;
 import com.networknt.service.SingletonServiceFactory;
 import com.networknt.utility.NioUtils;
 import com.networknt.rpc.Handler;
@@ -36,13 +36,11 @@ public class RetrieveConfig implements Handler {
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
 
-        ObjectMapper mapper = new ObjectMapper();
         String resultFile = "config.zip";
 
         try {
-            String json = mapper.writeValueAsString(input);
 
-            Map<String, String> configValueMap = mapper.readValue(json, Map.class);
+            Map<String, String> configValueMap = Config.getInstance().getMapper().convertValue(input, Map.class);
             String serviceId = configValueMap.get("serviceId");
             String profile = configValueMap.get("profile");
             String version = configValueMap.get("version");
