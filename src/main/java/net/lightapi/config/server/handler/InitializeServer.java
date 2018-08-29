@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -48,6 +51,14 @@ public class InitializeServer implements Handler {
     static {
         // a static block tries to load the key from filesystem. If the key exists,
         // then the initialize server action will return an error.
+        Path path = Paths.get(filename);
+        if (!Files.exists(path)) {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                logger.info("cannot create key file on the file system.", e);
+            }
+        }
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             key = br.readLine();
         } catch (IOException e) {

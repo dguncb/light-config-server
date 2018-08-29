@@ -63,6 +63,22 @@ javax.sql.DataSource
 ![workflow](docs/light-config-server.png)
 
 
+
+### Config value security
+
+-- Some sensitive values need to be encrypted
+
+ When the light-config-server hybrid service started, system will create an encrpt/decrpt key file on the files system (by default will be in the user home folder).
+
+ File name:  light-config-server.conf
+
+
+ System admin should trigger the Initial server service first after light-config-server service start to run to set the encrpt/decrpt key into the key file ( light-config-server.conf)
+
+
+
+
+
 ### Verify the config server
 
 1. Build the config server module

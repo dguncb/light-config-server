@@ -1,18 +1,14 @@
 package net.lightapi.config.server.jdbc;
 
 
-import com.networknt.service.SingletonServiceFactory;
+
 import net.lightapi.config.server.common.ConfigSecret;
 import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 

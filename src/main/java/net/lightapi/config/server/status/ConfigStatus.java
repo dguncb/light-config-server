@@ -53,6 +53,7 @@ public class ConfigStatus extends com.networknt.status.Status {
     /**
      * @return the severity
      */
+    @Override
     public String getSeverity() {
         return severity;
     }
@@ -61,6 +62,7 @@ public class ConfigStatus extends com.networknt.status.Status {
      * @param severity
      *            the severity to set
      */
+    @Override
     public void setSeverity(String severity) {
         this.severity = severity;
     }
