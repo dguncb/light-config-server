@@ -65,13 +65,19 @@ public interface ConfigRepository {
 
   /**
    * Stores the given Config key value pair.
-   * @param configSecret a {@link ConfigSecret}
+   * @param configValue a {@link ConfigValue}
    * @param serviceId service Id for config value
    * @return the stored {@link ConfigValue}
    */
-  ConfigSecret createServiceSecret(ConfigSecret configSecret, String serviceId);
+  ConfigValue createServiceSecret(ConfigValue configValue, String serviceId);
 
-
+  /**
+   * Stores the given Config key value pair.
+   * @param configValues list of {@link ConfigValue}
+   * @param serviceId service Id for config value
+   * @return the stored records number
+   */
+  int createServiceSecrets(List<ConfigValue> configValues, String serviceId);
 
   /**
    * Stores the given Config key value pair.

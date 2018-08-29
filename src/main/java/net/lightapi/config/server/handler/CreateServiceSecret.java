@@ -31,17 +31,8 @@ public class CreateServiceSecret implements Handler {
             String json = mapper.writeValueAsString(input);
             Map<String, String> configValueMap = mapper.readValue(json, Map.class);
             String configServiceId = configValueMap.get("configServiceId");
-            ConfigValue configValue;
-            if (InitializeServer.key==null) {
-                logger.error("config server doesn't initialized the encrpt key yet....");
-                configValue = new ConfigValue(configValueMap.get("key"), configValueMap.get("value"));
-            } else {
-                //TODO if the the service EncryptionAlgorithm is EncryptionAlgorithm.AES
-                AESConfigSecurity AESConfigSecurity = new AESConfigSecurity(InitializeServer.key);
-                configValue = new ConfigValue(configValueMap.get("key"), AESConfigSecurity.ecrypt(configValueMap.get("value")));
-            }
-
-            configValue = configRepository.createServiceValue(configValue,configServiceId);
+            ConfigValue configValue = new ConfigValue(configValueMap.get("key"), (configValueMap.get("value")));
+            configValue = configRepository.createServiceSecret(configValue,configServiceId);
             result = mapper.writeValueAsString(configValue);
 
         } catch (Exception e) {

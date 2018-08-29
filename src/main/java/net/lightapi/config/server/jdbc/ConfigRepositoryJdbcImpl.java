@@ -6,6 +6,8 @@ import net.lightapi.config.server.common.ConfigSecret;
 import net.lightapi.config.server.common.ConfigService;
 import net.lightapi.config.server.common.ConfigValue;
 import net.lightapi.config.server.common.SecretValue;
+import net.lightapi.config.server.common.crypto.AESConfigSecurity;
+import net.lightapi.config.server.handler.InitializeServer;
 import net.lightapi.config.server.util.IdGenerator;
 import net.lightapi.config.server.util.IdGeneratorImpl;
 import org.slf4j.Logger;
@@ -147,22 +149,51 @@ public class ConfigRepositoryJdbcImpl implements ConfigRepository{
     }
 
     @Override
-    public ConfigSecret createServiceSecret(ConfigSecret configSecret, String serviceId){
-        if(logger.isDebugEnabled()) logger.debug("Store config secret :"  + configSecret.getKey() + "; " + configSecret.getSecret());
-        //TODO convert secret value first
-        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE_SECRET)) {
-            stmt.setString(1, configSecret.getKey());
+    public ConfigValue createServiceSecret(ConfigValue configValue, String serviceId){
+        if(logger.isDebugEnabled()) logger.debug("Store config secret :"  + configValue.getKey() + "; " + configValue.getValue());
+        if (InitializeServer.key==null) {
+            logger.error("config server doesn't initialized the encrpt key yet....");
+        } else {
+            //TODO verify if the the service EncryptionAlgorithm is EncryptionAlgorithm.AES
+            AESConfigSecurity AESConfigSecurity = new AESConfigSecurity(InitializeServer.key);
+            configValue.setValue(AESConfigSecurity.ecrypt(configValue.getValue()));
+        }
+        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE_VALUE)) {
+            stmt.setString(1, configValue.getKey());
             stmt.setString(2, serviceId);
-            stmt.setString(3, configSecret.getSecretValue().getSecretHash());
-            stmt.setString(4, configSecret.getSecretValue().getSecretSalt());
+            stmt.setString(3, configValue.getValue());
             stmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("Exception:", e);
             throw new RuntimeException(e);
         }
-        return configSecret;
-
+        return configValue;
     }
+
+    @Override
+    public int createServiceSecrets(List<ConfigValue> configValues, String serviceId) {
+        try (Connection connection = ds.getConnection(); PreparedStatement stmt = connection.prepareStatement(INSERT_SERVICE_VALUE)) {
+            for (ConfigValue configValue : configValues) {
+                if (InitializeServer.key==null) {
+                    logger.error("config server doesn't initialized the encrpt key yet....");
+                } else {
+                    //TODO verify if the the service EncryptionAlgorithm is EncryptionAlgorithm.AES
+                    AESConfigSecurity AESConfigSecurity = new AESConfigSecurity(InitializeServer.key);
+                    configValue.setValue(AESConfigSecurity.ecrypt(configValue.getValue()));
+                }
+                stmt.setString(1, configValue.getKey());
+                stmt.setString(2,  serviceId);
+                stmt.setString(3, configValue.getValue());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+        } catch (SQLException e) {
+            logger.error("Exception:", e);
+            throw new RuntimeException(e);
+        }
+        return configValues.size();
+    }
+
 
     @Override
     public ConfigValue createCommonService(ConfigValue configValue) {

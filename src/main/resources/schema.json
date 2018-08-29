@@ -2,7 +2,7 @@
         "title": "Initialize Server Encryption Key",
         "type": "object",
         "properties": {
-          "keyOne": {
+          "key": {
             "type": "string"
           }
         },
@@ -154,7 +154,29 @@
           "profile",
           "version"          
         ]
-      },"scope": "light.config.w"},"lightapi.net/config/query-service-secrets/0.1.0":{"schema": {
+      },"scope": "light.config.w"},"lightapi.net/config/create-service-secrets/0.1.0":{"schema": {
+        "title": "Create a list of service key secret value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "key": {
+                 "type": "string"
+                },
+              "value": {
+                "type": "string"
+              }            
+            }                    
+        },
+        "required": [
+          "configServiceId"
+        ]
+      }
+     },"scope": "light.config.w"},"lightapi.net/config/query-service-secrets/0.1.0":{"schema": {
         "title": "Query all service specific key secret entries",
         "type": "object",
         "properties": {
