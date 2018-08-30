@@ -7,7 +7,6 @@ USE config;
 
 DROP TABLE IF EXISTS config_value;
 DROP TABLE IF EXISTS config_service;
-DROP TABLE IF EXISTS config_service_user;
 
 CREATE TABLE config_value (
   config_key VARCHAR(256) NOT NULL,
