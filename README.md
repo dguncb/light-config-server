@@ -73,9 +73,7 @@ javax.sql.DataSource
  File name:  light-config-server.conf
 
 
- System admin should trigger the Initial server service first after light-config-server service start to run to set the encrpt/decrpt key into the key file ( light-config-server.conf)
-
-
+System admin should trigger the Initial server service first after light-config-server service start to run to set the encrpt/decrpt key into the key file ( light-config-server.conf)
 
 
 
@@ -116,6 +114,17 @@ cd ~/networknt/light-docker
 docker-compose -f docker-compose-hybrid-service.yml up
 
 ```
+
+-- Initial server by add secret key for the service:
+
+```
+curl -X POST \
+  https://localhost:8443/api/json \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{"host":"lightapi.net","service":"config","action":"initialize-server","version":"0.1.0","data":{"key":"light-config"}}
+```
+
 
 
 
@@ -158,6 +167,18 @@ Content-Type: application/json
 Cache-Control: no-cache
 {"host":"lightapi.net","service":"config","action":"create-service-values","version":"0.1.0","data":{"configServiceId":"0000016543342c47-0242ac1300050000","values":[{"key":"server/enableHttps","value":"true"}, {"key":"server/httpsPort","value":"true"}]}}
 
+```
+
+And for create the config server secret values:
+
+```
+curl -X POST \
+  https://localhost:8443/api/json \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: b9803960-e5b2-42c7-afc1-5d071bc57d96' \
+  -d '{"host":"lightapi.net","service":"config","action":"create-service-secrets","version":"0.1.0","data":{"configServiceId":"00000165680f7e16-0242ac1200060000","values":[{"key":"server/buildNumber","value":"cibcBuild"}, {"key":"server/truststoreName","value":"keytab:112"}]}}
+'
 ```
 
 8. update service:

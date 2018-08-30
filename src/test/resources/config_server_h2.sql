@@ -14,14 +14,6 @@ CREATE TABLE config_value (
 
 
 
-CREATE TABLE config_secret (
-  config_key VARCHAR(256) NOT NULL,
-  config_secret_hash VARCHAR(256) NOT NULL,
-  config_secret_salt VARCHAR(256) NOT NULL,
-  config_service_id VARCHAR(256) NOT NULL,
-  PRIMARY KEY (config_key, config_service_id)
-);
-
 
 CREATE TABLE config_service (
   config_service_id VARCHAR(256) NOT NULL,
