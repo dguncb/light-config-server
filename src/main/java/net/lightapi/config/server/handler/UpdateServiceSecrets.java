@@ -14,7 +14,7 @@ import net.lightapi.config.server.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ServiceHandler(id="lightapi.net/config/update-service-secret/0.1.0")
+@ServiceHandler(id="lightapi.net/config/update-service-secrets/0.1.0")
 public class UpdateServiceSecrets implements Handler {
     static final Logger logger = LoggerFactory.getLogger(UpdateServiceSecrets.class);
     private ConfigRepository configRepository = (ConfigRepository) SingletonServiceFactory.getBean(ConfigRepository.class);
