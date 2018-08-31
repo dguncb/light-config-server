@@ -69,6 +69,28 @@
           "configServiceId"
         ]
       }
+     },"scope": "light.config.w"},"lightapi.net/config/update-service-values/0.1.0":{"schema": {
+        "title": "Update a list of service key value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "key": {
+                 "type": "string"
+                },
+              "value": {
+                "type": "string"
+              }            
+            }                    
+        },
+        "required": [
+          "configServiceId"
+        ]
+      }
      },"scope": "light.config.w"},"lightapi.net/config/query-service-value/0.1.0":{"schema": {
         "title": "Query a service specific key value entry",
         "type": "object",
@@ -156,6 +178,28 @@
         ]
       },"scope": "light.config.w"},"lightapi.net/config/create-service-secrets/0.1.0":{"schema": {
         "title": "Create a list of service key secret value entry",
+        "type": "object",
+        "properties": {
+          "configServiceId": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "key": {
+                 "type": "string"
+                },
+              "value": {
+                "type": "string"
+              }            
+            }                    
+        },
+        "required": [
+          "configServiceId"
+        ]
+      }
+     },"scope": "light.config.w"},"lightapi.net/config/update-service-secrets/0.1.0":{"schema": {
+        "title": "Update a list of service key secret value entry",
         "type": "object",
         "properties": {
           "configServiceId": {
@@ -268,7 +312,7 @@
           "key": {
             "type": "string"
           },
-          "secret": {
+          "value": {
             "type": "string"
           }
         },

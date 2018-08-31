@@ -88,9 +88,19 @@ public class ConfigRepositoryArrangoImpl implements ConfigRepository{
     }
 
     @Override
-    public ConfigSecret updateServiceSecret(ConfigSecret configSecret, String serviceId){
+    public int updateServiceValues(List<ConfigValue> configValues, String serviceId){
+        return 0;
+    }
 
-        return configSecret;
+    @Override
+    public ConfigValue updateServiceSecret(ConfigValue configValue, String serviceId){
+
+        return configValue;
+    }
+
+    @Override
+    public int updateServiceSecrets(List<ConfigValue> configValues, String serviceId) {
+        return 0;
     }
 
     @Override

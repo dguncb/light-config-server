@@ -123,13 +123,20 @@ public interface ConfigRepository {
 
   /**
    * update the given Config key value pair.
-   * @param configSecret a {@link ConfigSecret}
+   * @param configValue a {@link ConfigValue}
    * @param serviceId service Id for config value
    * @return the stored {@link ConfigValue}
    */
-  ConfigSecret updateServiceSecret(ConfigSecret configSecret, String serviceId);
+  ConfigValue updateServiceSecret(ConfigValue configValue, String serviceId);
 
 
+  /**
+   * Stores the given Config key value pair.
+   * @param configValues list of {@link ConfigValue}
+   * @param serviceId service Id for config value
+   * @return the stored records number
+   */
+  int updateServiceSecrets(List<ConfigValue> configValues, String serviceId);
 
   /**
    * udpate the given Config key value pair.
@@ -145,6 +152,14 @@ public interface ConfigRepository {
    * @return the result of  {@link ConfigValue}
    */
   ConfigValue queryServiceValue(String key, String serviceId);
+
+  /**
+   * Stores the given Config key value pair.
+   * @param configValues list of {@link ConfigValue}
+   * @param serviceId service Id for config value
+   * @return the stored records number
+   */
+  int updateServiceValues(List<ConfigValue> configValues, String serviceId);
 
   /**
    * query the config secret by given key and serviceId.
