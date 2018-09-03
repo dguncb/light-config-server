@@ -114,7 +114,7 @@ docker-compose -f docker-compose-hybrid-service.yml up
  File name:  light-config-server.conf
 
 
-System admin should trigger the Initial server service first after light-config-server service start to run to set the encrpt/decrpt key into the key file ( light-config-server.conf)
+System admin should trigger the Initial server service first after light-config-server service start to run to set the encrypt/decrypt key into the key file ( light-config-server.conf)
 
 
 --Initial server by add secret key for the service (in real setting, it should be done by admin only):
