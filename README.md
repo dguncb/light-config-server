@@ -44,7 +44,7 @@ The config value will be save into data store (NoSql DB or RDBMS DB). The config
 -- Common config value, which is same for all services in the environment.
 
 
-From config value key, system identify the template and and config name in the confgi template file.
+From config value key, system identify the template and and config name in the config template file.
 
 For example:
 
@@ -117,7 +117,7 @@ docker-compose -f docker-compose-hybrid-service.yml up
 System admin should trigger the Initial server service first after light-config-server service start to run to set the encrpt/decrpt key into the key file ( light-config-server.conf)
 
 
---Initial server by add secret key for the service (in real settig, it should be done by admin only):
+--Initial server by add secret key for the service (in real setting, it should be done by admin only):
 
 ```
 curl -X POST \
@@ -126,6 +126,7 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -d '{"host":"lightapi.net","service":"config","action":"initialize-server","version":"0.1.0","data":{"key":"light-config"}}
 ```
+
 
 
 ### Verify the config server
@@ -207,7 +208,7 @@ curl -X POST \
 '
 ```
 
-6. update config values (list of key-value pairs):
+7. update config values (list of key-value pairs):
 
 ```
 curl -X POST \
@@ -219,7 +220,7 @@ curl -X POST \
 ```
 
 
-7. update config secret values (list of key-value pairs):
+8. update config secret values (list of key-value pairs):
 
 ```
 curl -X POST \
@@ -233,7 +234,7 @@ curl -X POST \
 ```
 
 
-8. query  service:
+9. query  service:
 
 ```
 curl -X POST \
