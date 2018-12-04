@@ -73,7 +73,8 @@ public class InitializeServer implements Handler {
         String result = "";
         // if key has been retrieved from the filesystem, then there is no need to set it.
         if(key != null && key.trim().length() > 0) {
-            return NioUtils.toByteBuffer(getStatus(CONFIG_SERVER_INITIALIZED));
+
+            return NioUtils.toByteBuffer(getStatus(exchange , CONFIG_SERVER_INITIALIZED));
         }
         try {
             if(input instanceof Map) {
@@ -83,11 +84,11 @@ public class InitializeServer implements Handler {
                 writer.close();
             } else {
                 // error wrong format
-                return NioUtils.toByteBuffer(getStatus(INVALID_INITIALIZE_KEY_FORMAT));
+                return NioUtils.toByteBuffer(getStatus(exchange , INVALID_INITIALIZE_KEY_FORMAT));
             }
         } catch (Exception e) {
             logger.error("ERR11402", e);
-            return NioUtils.toByteBuffer(getStatus(ERROR_WRITING_KEY_FILE, filename));
+            return NioUtils.toByteBuffer(getStatus(exchange , ERROR_WRITING_KEY_FILE, filename));
         }
         // TODO return empty body. Should we return something more meaningful?
         return NioUtils.toByteBuffer(result);

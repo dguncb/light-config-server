@@ -89,7 +89,7 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
 
     @Override
     public String processTemplate(  TemplateConfigValue templateConfigValue, ConfigService configService ) throws Exception {
-        return processTemplate(ABSOLUTE_REPOSITORIES, templateConfigValue, configService);
+        return processTemplate(ABSOLUTE_REPOSITORIES + getRepoName(configService.getTemplateRepository()), templateConfigValue, configService);
     }
 
     @Override
@@ -145,9 +145,10 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
             try {
                 FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
                 repositoryBuilder.setMustExist( true );
-                repositoryBuilder.readEnvironment();
+                //repositoryBuilder.readEnvironment();
                 repositoryBuilder.addCeilingDirectory(file);
-                repositoryBuilder.findGitDir();
+                repositoryBuilder.findGitDir(file);
+                repositoryBuilder.setGitDir(file);
                 try (Repository repository = repositoryBuilder.build()) {
                     if(logger.isDebugEnabled()) logger.debug("Starting fetch" + file.getAbsolutePath());
                     try (Git git = new Git(repository)) {
