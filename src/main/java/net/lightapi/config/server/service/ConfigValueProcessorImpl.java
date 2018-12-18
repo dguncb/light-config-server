@@ -95,7 +95,7 @@ public class ConfigValueProcessorImpl implements  ConfigValueProcessor{
     @Override
     public String processTemplate(  String sourceFolder, TemplateConfigValue templateConfigValue, ConfigService configService ) throws Exception {
 
-        String targetFolder = ABSOLUTE_WORKING + "/" + configService.getVersion() + "/" + configService.getProfile() + "/" + configService.getServiceId() + "/config";
+        String targetFolder = ABSOLUTE_WORKING + "/" + configService.getVersion() + "/" + configService.getProfile() + "/" + configService.getServiceId() ; //+ "/config";
         String zipFile = ABSOLUTE_WORKING + "/" + configService.getVersion() + "/" + configService.getProfile()  + "/" + configService.getServiceId() + "/config.zip";
 
         if(logger.isDebugEnabled()) logger.debug("version = " + configService.getVersion() + " profile = " + configService.getProfile() + " service = " + configService.getServiceId());

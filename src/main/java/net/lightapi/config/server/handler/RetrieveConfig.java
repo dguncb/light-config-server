@@ -36,6 +36,8 @@ public class RetrieveConfig implements Handler {
     @Override
     public ByteBuffer handle(HttpServerExchange exchange, Object input)  {
 
+       // exchange.getResponse
+
         String resultFile = "config.zip";
 
         try {
